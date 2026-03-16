@@ -715,7 +715,7 @@ footer{background:var(--text);color:rgba(255,255,255,0.55);padding:40px 48px 28p
 </div>
 
 <!-- ═══ 부원 수정 모달 ═══ -->
-<div class="mo" id="memberEditMo" onclick="if(event.target===this)this.classList.remove('active')">
+<div class="mo" id="memberEditMo" style="z-index:400;" onclick="if(event.target===this)this.classList.remove('active')">
   <div class="mc" style="max-width:500px;">
     <button class="mclose" onclick="document.getElementById('memberEditMo').classList.remove('active')">✕</button>
     <h3>✏️ 교사 정보 수정</h3>
