@@ -148,6 +148,22 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;background:rgba(
 .mc-li{display:flex;align-items:center;gap:6px;font-size:0.7rem;color:var(--t2);}
 .mc-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
 
+/* ── NOTICE SEARCH & PAGINATION ── */
+.notice-search-bar{display:flex;gap:10px;margin-bottom:20px;max-width:760px;}
+.notice-search-input{flex:1;background:#fff;border:1.5px solid var(--bl);border-radius:10px;padding:10px 16px;font-size:0.88rem;outline:none;font-family:'Noto Sans KR',sans-serif;color:var(--text);transition:border-color 0.2s;}
+.notice-search-input:focus{border-color:var(--blue);}
+.notice-search-clear{background:var(--bg);border:1.5px solid var(--bl);border-radius:10px;padding:10px 14px;font-size:0.82rem;cursor:pointer;color:var(--t2);font-family:'Noto Sans KR',sans-serif;font-weight:600;transition:all 0.2s;white-space:nowrap;}
+.notice-search-clear:hover{border-color:#86868b;color:var(--text);}
+.notice-count-bar{font-size:0.78rem;color:var(--t3);margin-bottom:12px;max-width:760px;}
+.notice-count-bar b{color:var(--blue);}
+.notice-pagination{display:flex;gap:6px;align-items:center;margin-top:20px;max-width:760px;flex-wrap:wrap;}
+.np-btn{width:34px;height:34px;border-radius:8px;border:1.5px solid var(--bl);background:#fff;font-size:0.82rem;cursor:pointer;font-family:'Noto Sans KR',sans-serif;font-weight:600;color:var(--t2);transition:all 0.2s;display:flex;align-items:center;justify-content:center;}
+.np-btn:hover{border-color:var(--blue);color:var(--blue);}
+.np-btn.active{background:var(--blue);border-color:var(--blue);color:#fff;}
+.np-btn:disabled{opacity:0.35;cursor:not-allowed;}
+.np-arrow{font-size:0.9rem;}
+.notice-empty{padding:48px 0;text-align:center;color:var(--t3);font-size:0.88rem;max-width:760px;}
+
 /* ── MEMBERS ── */
 .members-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px;}
 .mcard{background:#fff;border:1px solid var(--bl);border-radius:var(--r);padding:28px 20px;text-align:center;transition:all 0.3s;position:relative;overflow:hidden;}
@@ -451,7 +467,13 @@ footer{background:var(--text);color:rgba(255,255,255,0.55);padding:40px 48px 28p
   </div>
 </div>
 <div class="pg-body">
-  <div class="notice-list fu" id="noticeList" style="max-width:760px;"></div>
+  <div class="notice-search-bar">
+    <input class="notice-search-input" id="noticeSearch" type="text" placeholder="제목 또는 내용으로 검색..." oninput="onNoticeSearch()">
+    <button class="notice-search-clear" onclick="clearNoticeSearch()">초기화</button>
+  </div>
+  <div class="notice-count-bar" id="noticeCountBar"></div>
+  <div class="notice-list" id="noticeList" style="max-width:760px;"></div>
+  <div class="notice-pagination" id="noticePagination"></div>
 </div>
 </div>
 
@@ -549,7 +571,7 @@ footer{background:var(--text);color:rgba(255,255,255,0.55);padding:40px 48px 28p
       <div class="maint-success" id="maintSuccess">
         <div class="success-icon">✅</div>
         <div class="success-title">접수가 완료되었습니다!</div>
-        <div class="success-sub">담당 교사가 확인 후 연락드리겠습니다.<br>평균 처리 시간: 2시간 이내</div>
+        <div class="success-sub">담당 교사가 확인 후 연락드리겠습니다.</div>
         <button class="btn btn-blue" onclick="resetMaintForm()">새 요청 접수</button>
       </div>
     </div>
@@ -750,7 +772,6 @@ footer{background:var(--text);color:rgba(255,255,255,0.55);padding:40px 48px 28p
       <button class="atab active" onclick="switchTab('notices')">📢 공지사항</button>
       <button class="atab" onclick="switchTab('schedule')">📅 학사일정</button>
       <button class="atab" onclick="switchTab('members')">👥 교사 관리</button>
-      <button class="atab" onclick="switchTab('reqs')">📦 대여 항목</button>
       <button class="atab" onclick="switchTab('sheets')">📊 Sheets 연동</button>
       <button class="atab" onclick="switchTab('settings')">🛠️ 설정</button>
     </div>
@@ -825,22 +846,34 @@ footer{background:var(--text);color:rgba(255,255,255,0.55);padding:40px 48px 28p
           <div class="gs"><div class="gsn">3</div><div>아래 코드 붙여넣기 후 저장
             <div style="display:flex;justify-content:flex-end;margin-bottom:4px;margin-top:6px;"><button style="font-size:0.7rem;padding:2px 8px;border-radius:5px;border:1px solid var(--border);background:transparent;cursor:pointer;" onclick="copyMaintCode()">복사</button></div>
 <pre class="code-b" id="maintCode">function doPost(e) {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  let sh = ss.getSheetByName('유지보수신청');
-  if (!sh) {
-    sh = ss.insertSheet('유지보수신청');
-    sh.appendRow(['접수번호','일자','유지보수 신청 내용','신청인','장소','기기명','접수 시각']);
-    sh.setFrozenRows(1);
-    sh.getRange(1,1,1,7).setFontWeight('bold').setBackground('#f4b8b5');
-    [60,110,380,90,140,120,150].forEach((w,i)=>sh.setColumnWidth(i+1,w));
+  try {
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    let sh = ss.getSheetByName('유지보수신청');
+    if (!sh) {
+      sh = ss.insertSheet('유지보수신청');
+      sh.appendRow(['접수번호','일자','유지보수 신청 내용','신청인','장소','기기명','접수 시각']);
+      sh.setFrozenRows(1);
+      sh.getRange(1,1,1,7).setFontWeight('bold').setBackground('#f4b8b5');
+      [60,110,380,90,140,120,150].forEach((w,i)=>sh.setColumnWidth(i+1,w));
+    }
+    // no-cors 방식: postData.contents 로 수신
+    const raw = e.postData ? e.postData.contents : e.parameter.data;
+    const d = JSON.parse(raw);
+    const num = sh.getLastRow(); // 헤더 포함 행 수 = 접수 순번
+    sh.appendRow([num, d.date, d.content, d.name, d.location, d.device,
+      new Date().toLocaleString('ko-KR')]);
+    return ContentService
+      .createTextOutput(JSON.stringify({ok:true}))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch(err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ok:false, error: err.message}))
+      .setMimeType(ContentService.MimeType.JSON);
   }
-  const d = JSON.parse(e.postData.contents);
-  const num = sh.getLastRow();
-  sh.appendRow([num, d.date, d.content, d.name, d.location, d.device,
-    new Date().toLocaleString('ko-KR')]);
-  return ContentService.createTextOutput(
-    JSON.stringify({ok:true})).setMimeType(ContentService.MimeType.JSON);
-}</pre>
+}
+
+// ※ 배포 설정: 웹 앱 → 액세스 = '모든 사용자' (익명 포함)
+// ※ 배포 후 URL을 복사해 관리자 패널 → Sheets 연동에 붙여넣으세요</pre>
           </div></div>
           <div class="gs"><div class="gsn">4</div><div><span class="ic">배포</span> → <span class="ic">새 배포</span> → 웹 앱 → 액세스: <span class="ic">모든 사용자</span> → 배포 후 URL 복사</div></div>
           <div class="gs"><div class="gsn">5</div><div>아래 입력칸에 URL 붙여넣기</div></div>
@@ -1010,6 +1043,13 @@ function showPage(name) {
   document.querySelectorAll('[data-page]').forEach(l=>l.classList.toggle('active',l.dataset.page===name));
   window.scrollTo(0,0);
   reobs();
+  if(name==='notices'){
+    noticeQuery='';
+    noticePage=1;
+    const si=document.getElementById('noticeSearch');
+    if(si) si.value='';
+    renderNotices();
+  }
   if(name==='maintenance') {
     const url=localStorage.getItem(K.maintUrl);
     document.getElementById('maintUrlWarning').style.display=url?'none':'block';
@@ -1025,24 +1065,103 @@ function showPage(name) {
 }
 
 // ══ NOTICES ══
+const NOTICES_PER_PAGE = 8;
+let noticePage = 1;
+let noticeQuery = '';
+
+function onNoticeSearch(){
+  noticeQuery = (document.getElementById('noticeSearch').value||'').trim();
+  noticePage = 1;
+  renderNotices();
+}
+function clearNoticeSearch(){
+  document.getElementById('noticeSearch').value='';
+  noticeQuery='';
+  noticePage=1;
+  renderNotices();
+}
+
 function renderNotices(){
-  const el=document.getElementById('noticeList');
-  if(!notices.length){el.innerHTML='<div style="padding:32px;text-align:center;color:var(--t3);">등록된 공지사항이 없습니다.</div>';return;}
-  el.innerHTML=[...notices].reverse().map(n=>`
-    <div class="ncard fu" onclick="viewNotice(${n.id})">
-      <span class="nbadge ${n.badge}">${BADGE_MAP[n.badge]||'일반'}</span>
-      <div class="n-title">${esc(n.title)}</div>
-      <div class="n-date">${n.date}</div>
+  const listEl  = document.getElementById('noticeList');
+  const pageEl  = document.getElementById('noticePagination');
+  const countEl = document.getElementById('noticeCountBar');
+  if(!listEl) return;
+
+  // 최신순 정렬 (id 내림차순, id = Date.now())
+  const sorted = [...notices].sort((a,b)=>b.id-a.id);
+
+  // 검색 필터
+  const q = noticeQuery.toLowerCase();
+  const filtered = q
+    ? sorted.filter(n=>(n.title||'').toLowerCase().includes(q)||(n.content||'').toLowerCase().includes(q))
+    : sorted;
+
+  const total = filtered.length;
+  const totalPages = Math.max(1, Math.ceil(total / NOTICES_PER_PAGE));
+  if(noticePage > totalPages) noticePage = totalPages;
+
+  // 카운트 바
+  if(countEl){
+    if(q){
+      countEl.innerHTML = `<b>${total}</b>건의 검색 결과 (전체 ${notices.length}건)`;
+    } else {
+      countEl.innerHTML = `전체 <b>${total}</b>건`;
+    }
+  }
+
+  // 현재 페이지 슬라이스
+  const start = (noticePage-1)*NOTICES_PER_PAGE;
+  const pageItems = filtered.slice(start, start+NOTICES_PER_PAGE);
+
+  if(!pageItems.length){
+    listEl.innerHTML='<div class="notice-empty">'+(q?`"${esc(noticeQuery)}"에 해당하는 공지가 없습니다.`:'등록된 공지사항이 없습니다.')+'</div>';
+    if(pageEl) pageEl.innerHTML='';
+    return;
+  }
+
+  listEl.innerHTML = pageItems.map(n=>{
+    const highlight = (str)=>{
+      if(!q) return esc(str||'');
+      return esc(str||'').replace(new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi'),m=>`<mark style="background:rgba(0,113,227,0.15);color:var(--blue);border-radius:2px;">${m}</mark>`);
+    };
+    return `<div class="ncard fu" onclick="viewNotice(${n.id})">
+      <span class="nbadge ${n.badge||'nb-gen'}">${BADGE_MAP[n.badge]||'일반'}</span>
+      <div class="n-title">${highlight(n.title)}</div>
+      <div class="n-date">${n.date||''}</div>
       <div class="n-arr">›</div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
+
+  // 페이지네이션
+  if(pageEl){
+    if(totalPages<=1){pageEl.innerHTML='';return;}
+    let html='';
+    html+=`<button class="np-btn np-arrow" onclick="goNoticePage(${noticePage-1})" ${noticePage===1?'disabled':''}>‹</button>`;
+    const range=5, half=Math.floor(range/2);
+    let s=Math.max(1,noticePage-half), e=Math.min(totalPages,s+range-1);
+    if(e-s<range-1) s=Math.max(1,e-range+1);
+    if(s>1) html+=`<button class="np-btn" onclick="goNoticePage(1)">1</button>${s>2?'<span style="padding:0 4px;color:var(--t3);">…</span>':''}`;
+    for(let i=s;i<=e;i++) html+=`<button class="np-btn${i===noticePage?' active':''}" onclick="goNoticePage(${i})">${i}</button>`;
+    if(e<totalPages) html+=`${e<totalPages-1?'<span style="padding:0 4px;color:var(--t3);">…</span>':''}<button class="np-btn" onclick="goNoticePage(${totalPages})">${totalPages}</button>`;
+    html+=`<button class="np-btn np-arrow" onclick="goNoticePage(${noticePage+1})" ${noticePage===totalPages?'disabled':''}>›</button>`;
+    pageEl.innerHTML=html;
+  }
   reobs();
 }
+
+function goNoticePage(p){
+  const totalPages=Math.max(1,Math.ceil((noticeQuery?[...notices].filter(n=>(n.title||'').toLowerCase().includes(noticeQuery.toLowerCase())||(n.content||'').toLowerCase().includes(noticeQuery.toLowerCase())).length:notices.length)/NOTICES_PER_PAGE));
+  noticePage=Math.max(1,Math.min(p,totalPages));
+  renderNotices();
+  document.getElementById('page-notices').scrollTo?document.getElementById('page-notices').scrollTo(0,0):window.scrollTo(0,0);
+}
+
 function viewNotice(id){
   const n=notices.find(x=>x.id===id);if(!n)return;
   document.getElementById('noticeViewContent').innerHTML=`
-    <div class="nv-badge"><span class="nbadge ${n.badge}">${BADGE_MAP[n.badge]||'일반'}</span></div>
+    <div class="nv-badge"><span class="nbadge ${n.badge||'nb-gen'}">${BADGE_MAP[n.badge]||'일반'}</span></div>
     <h3 style="margin-bottom:6px;">${esc(n.title)}</h3>
-    <div class="nv-date">${n.date}</div>
+    <div class="nv-date">${n.date||''}</div>
     <div class="nv-content">${esc(n.content||'내용이 없습니다.')}</div>`;
   document.getElementById('noticeViewMo').classList.add('active');
 }
@@ -1155,14 +1274,24 @@ async function submitMaintenance(){
   const content=document.getElementById('mf-content').value.trim();
   if(!date||!name||!loc||!content){showToast('모든 항목을 입력해 주세요.','warn');return;}
   const url=localStorage.getItem(K.maintUrl);
-  if(!url){showToast('관리자가 Sheets URL을 설정하지 않았습니다.','warn');return;}
+  if(!url||!url.startsWith('http')){showToast('관리자 패널 → Sheets 연동 탭에서 URL을 먼저 설정해 주세요.','warn');return;}
   const btn=document.getElementById('submitMaintBtn');
-  btn.disabled=true;document.getElementById('submitBtnText').textContent='접수 중...';
-  const data={date,name,location:loc,device,content};
+  btn.disabled=true;
+  document.getElementById('submitBtnText').textContent='접수 중...';
+  const payload=JSON.stringify({date,name,location:loc,device,content});
   try{
-    await fetch(url,{method:'POST',mode:'no-cors',body:JSON.stringify(data)});
-  }catch(e){console.log(e);}
-  btn.disabled=false;document.getElementById('submitBtnText').textContent='접수하기';
+    // no-cors 모드: Content-Type은 text/plain만 허용 → 스크립트에서 e.postData.contents로 수신
+    await fetch(url,{
+      method:'POST',
+      mode:'no-cors',
+      headers:{'Content-Type':'text/plain;charset=UTF-8'},
+      body:payload
+    });
+  }catch(e){
+    console.warn('fetch 오류(no-cors는 정상):', e);
+  }
+  btn.disabled=false;
+  document.getElementById('submitBtnText').textContent='접수하기';
   document.getElementById('maintFormCard').style.display='none';
   document.getElementById('maintSuccess').classList.add('show');
 }
@@ -1204,7 +1333,7 @@ function openAdmin(){
 }
 function closeAdmin(){isAdminOpen=false;document.getElementById('adminOv').classList.remove('active');renderMembers();}
 function switchTab(n){
-  const tabs=['notices','schedule','members','reqs','sheets','settings'];
+  const tabs=['notices','schedule','members','sheets','settings'];
   document.querySelectorAll('.atab').forEach((t,i)=>t.classList.toggle('active',tabs[i]===n));
   document.querySelectorAll('.atc').forEach(c=>c.classList.remove('active'));
   document.getElementById('tab-'+n).classList.add('active');
