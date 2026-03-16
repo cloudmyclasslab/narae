@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>서울나래학교 과학정보부</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5f5f7; --white:#fff; --blue:#0071e3; --blue-h:#0077ed;
+  --blue-lt:rgba(0,113,227,0.1); --purple:#5856d6; --green:#34c759;
+  --orange:#ff9f0a; --red:#ff3b30; --text:#1d1d1f; --t2:#6e6e73;
+  --t3:#86868b; --border:#d2d2d7; --bl:#e8e8ed;
+  --sh:0 2px 16px rgba(0,0,0,0.08); --sh2:0 8px 40px rgba(0,0,0,0.14);
+  --r:18px; --r2:12px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+::-webkit-scrollbar{width:5px;} ::-webkit-scrollbar-thumb{background:#c7c7cc;border-radius:3px;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;background:rgba(255,255,255,0.9);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,0.07);display:flex;align-items:center;gap:0;padding:0 32px;}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;margin-right:auto;flex-shrink:0;}
+.nav-logo img{height:32px;width:auto;object-fit:contain;}
+.nav-logo-sep{width:1px;height:20px;background:var(--border);margin:0 2px;}
+.nav-logo-text{font-size:0.78rem;font-weight:700;color:var(--t2);}
+.nav-links{display:flex;gap:2px;list-style:none;}
+.nav-links a{color:var(--t2);text-decoration:none;font-size:0.82rem;padding:6px 13px;border-radius:8px;transition:all 0.2s;font-weight:500;cursor:pointer;white-space:nowrap;}
+.nav-links a:hover{color:var(--text);background:rgba(0,0,0,0.05);}
+.nav-links a.active{color:var(--blue);background:var(--blue-lt);}
+.nav-right{display:flex;gap:8px;align-items:center;margin-left:16px;}
+.nbtn{font-size:0.78rem;padding:6px 14px;border-radius:20px;border:none;cursor:pointer;font-family:'Noto Sans KR',sans-serif;font-weight:600;transition:all 0.2s;}
+.nbtn-g{background:transparent;color:var(--t2);border:1px solid var(--border);}
+.nbtn-g:hover{color:var(--text);border-color:#86868b;}
+/* Dropdown menu */
+.nav-dropdown{position:relative;}
+.nav-dd-btn{display:flex;align-items:center;gap:6px;font-size:0.78rem;padding:6px 16px;border-radius:20px;border:1.5px solid var(--blue);background:var(--blue);color:#fff;cursor:pointer;font-family:'Noto Sans KR',sans-serif;font-weight:700;transition:all 0.2s;}
+.nav-dd-btn:hover{background:var(--blue-h);}
+.nav-dd-btn .dd-arrow{font-size:0.65rem;transition:transform 0.2s;}
+.nav-dropdown.open .dd-arrow{transform:rotate(180deg);}
+.nav-dd-menu{position:absolute;top:calc(100% + 10px);right:0;background:#fff;border:1px solid var(--bl);border-radius:var(--r2);box-shadow:var(--sh2);min-width:200px;overflow:hidden;display:none;z-index:200;animation:ddIn 0.2s ease;}
+@keyframes ddIn{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);}}
+.nav-dropdown.open .nav-dd-menu{display:block;}
+.nav-dd-item{display:flex;align-items:center;gap:12px;padding:13px 18px;cursor:pointer;transition:background 0.15s;font-size:0.85rem;font-weight:600;color:var(--text);border-bottom:1px solid var(--bl);}
+.nav-dd-item:last-child{border-bottom:none;}
+.nav-dd-item:hover{background:rgba(0,113,227,0.05);color:var(--blue);}
+.nav-dd-item .dd-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.nav-dd-desc{font-size:0.72rem;color:var(--t3);font-weight:500;margin-top:1px;}
+
+/* PAGES */
+.page{display:none;min-height:calc(100vh - 56px);padding-top:56px;}
+.page.active{display:block;animation:fadeIn 0.35s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+
+/* ── HOME HERO ── */
+.hero{position:relative;overflow:hidden;min-height:calc(100vh - 56px);display:flex;align-items:center;background:linear-gradient(160deg,#fff 0%,#f0f4ff 100%);}
+.hero-inner{max-width:1140px;margin:0 auto;padding:60px 48px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;width:100%;}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(0,113,227,0.08);color:var(--blue);font-size:0.72rem;font-weight:700;padding:5px 14px;border-radius:20px;margin-bottom:18px;border:1px solid rgba(0,113,227,0.15);}
+.hero h1{font-size:3.6rem;font-weight:900;letter-spacing:-0.03em;line-height:1.08;margin-bottom:18px;}
+.hero h1 em{font-style:normal;background:linear-gradient(135deg,#0071e3,#5856d6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-sub{font-size:1.05rem;color:var(--t2);line-height:1.75;margin-bottom:36px;}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;}
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:'Noto Sans KR',sans-serif;font-weight:700;padding:13px 26px;border-radius:980px;border:none;cursor:pointer;font-size:0.9rem;text-decoration:none;transition:all 0.25s;}
+.btn-blue{background:var(--blue);color:#fff;}
+.btn-blue:hover{background:var(--blue-h);transform:scale(1.03);box-shadow:0 4px 16px rgba(0,113,227,0.35);}
+.btn-white{background:#fff;color:var(--text);box-shadow:var(--sh);}
+.btn-white:hover{box-shadow:var(--sh2);transform:scale(1.03);}
+/* Hero illustration */
+.hero-visual{position:relative;display:flex;align-items:center;justify-content:center;}
+.hero-visual svg{width:100%;max-width:520px;height:auto;}
+/* Quick cards below hero */
+.hero-cards{background:#fff;border-top:1px solid var(--bl);padding:36px 48px;}
+.hero-cards-inner{max-width:1140px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+.hcard{background:var(--bg);border:1px solid var(--bl);border-radius:var(--r2);padding:22px 20px;cursor:pointer;transition:all 0.25s;text-align:center;text-decoration:none;color:var(--text);}
+.hcard:hover{background:#fff;box-shadow:var(--sh2);transform:translateY(-4px);}
+.hcard-icon{font-size:1.8rem;margin-bottom:10px;}
+.hcard-title{font-size:0.88rem;font-weight:700;margin-bottom:3px;}
+.hcard-sub{font-size:0.72rem;color:var(--t3);}
+
+/* ── SECTION PAGE ── */
+.pg-hero{padding:60px 48px 40px;background:linear-gradient(135deg,#fff 60%,#f0f6ff 100%);border-bottom:1px solid var(--bl);display:flex;gap:48px;align-items:center;max-width:100%;}
+.pg-hero-text{flex:1;}
+.pg-label{font-size:0.7rem;font-weight:700;letter-spacing:0.12em;color:var(--blue);text-transform:uppercase;margin-bottom:8px;}
+.pg-title{font-size:2.4rem;font-weight:900;letter-spacing:-0.02em;margin-bottom:8px;}
+.pg-sub{font-size:0.95rem;color:var(--t2);}
+.pg-body{max-width:1140px;margin:0 auto;padding:44px 48px;}
+.pg-grid{display:grid;grid-template-columns:1fr 300px;gap:24px;align-items:start;}
+
+/* ── NOTICES ── */
+.notice-list{display:flex;flex-direction:column;gap:10px;}
+.ncard{background:#fff;border:1px solid var(--bl);border-radius:var(--r2);padding:18px 22px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all 0.25s;}
+.ncard:hover{box-shadow:var(--sh2);transform:translateY(-2px);}
+.nbadge{font-size:0.66rem;font-weight:700;padding:3px 9px;border-radius:6px;white-space:nowrap;flex-shrink:0;}
+.nb-new{background:rgba(0,113,227,0.1);color:var(--blue);}
+.nb-imp{background:rgba(255,59,48,0.1);color:var(--red);}
+.nb-gen{background:rgba(110,110,115,0.1);color:var(--t2);}
+.nb-event{background:rgba(52,199,89,0.1);color:#1a8f38;}
+.n-title{flex:1;font-size:0.88rem;font-weight:500;}
+.n-date{font-size:0.72rem;color:var(--t3);flex-shrink:0;}
+.n-arr{color:var(--t3);}
+
+/* SIDEBAR */
+.sidebar{display:flex;flex-direction:column;gap:10px;}
+.scard{background:#fff;border:1px solid var(--bl);border-radius:var(--r2);padding:18px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all 0.22s;}
+.scard:hover{box-shadow:var(--sh);transform:translateX(4px);}
+.sicon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.si-b{background:rgba(0,113,227,0.1);} .si-p{background:rgba(88,86,212,0.1);} .si-g{background:rgba(52,199,89,0.1);} .si-o{background:rgba(255,159,10,0.1);}
+.s-title{font-size:0.84rem;font-weight:700;} .s-sub{font-size:0.7rem;color:var(--t3);margin-top:1px;}
+
+/* ── CALENDAR ── */
+.cal-layout{display:grid;grid-template-columns:1fr 310px;gap:24px;align-items:start;}
+.ftabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;}
+.ftab{font-size:0.78rem;font-weight:600;padding:6px 14px;border-radius:20px;border:1.5px solid var(--bl);background:#fff;cursor:pointer;font-family:'Noto Sans KR',sans-serif;color:var(--t2);transition:all 0.2s;}
+.ftab.active{background:var(--blue);border-color:var(--blue);color:#fff;}
+.sched-list{display:flex;flex-direction:column;gap:12px;}
+.sched-card{background:#fff;border:1px solid var(--bl);border-radius:var(--r2);padding:18px 22px;display:flex;gap:16px;align-items:flex-start;transition:all 0.25s;}
+.sched-card:hover{box-shadow:var(--sh2);transform:translateY(-2px);}
+.sched-date{text-align:center;min-width:44px;}
+.sched-m{font-size:0.6rem;font-weight:700;color:var(--t3);letter-spacing:0.05em;}
+.sched-d{font-size:1.8rem;font-weight:900;color:var(--blue);line-height:1;letter-spacing:-0.02em;}
+.sched-e{font-size:0.58rem;color:var(--t3);margin-top:1px;}
+.sched-sep{width:1px;background:var(--bl);align-self:stretch;}
+.sched-body{flex:1;}
+.sched-title{font-size:0.9rem;font-weight:700;margin-bottom:4px;}
+.sched-desc{font-size:0.79rem;color:var(--t2);line-height:1.55;margin-bottom:8px;}
+.stags{display:flex;gap:5px;flex-wrap:wrap;}
+.stag{font-size:0.62rem;font-weight:700;padding:2px 7px;border-radius:5px;}
+.stag-sci{background:rgba(88,86,212,0.1);color:#3634a3;}
+.stag-school{background:rgba(0,113,227,0.1);color:var(--blue);}
+.stag-vacation{background:rgba(255,159,10,0.1);color:#b36400;}
+.stag-info{background:rgba(52,199,89,0.1);color:#1a8f38;}
+/* Mini cal */
+.mini-cal{background:#fff;border:1px solid var(--bl);border-radius:var(--r);padding:24px;position:sticky;top:72px;box-shadow:var(--sh);}
+.mc-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+.mc-t{font-size:0.88rem;font-weight:800;color:var(--text);}
+.mc-nav{background:var(--bg);border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:0.9rem;color:var(--t2);transition:all 0.15s;display:flex;align-items:center;justify-content:center;}
+.mc-nav:hover{background:var(--bl);}
+.mc-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;text-align:center;}
+.mc-dn{font-size:0.6rem;font-weight:700;color:var(--t3);padding:2px 0;}
+.mc-day{font-size:0.77rem;padding:6px 3px 10px;border-radius:6px;color:var(--t2);position:relative;cursor:default;line-height:1;}
+.mc-day.today{background:var(--blue);color:#fff!important;font-weight:800;}
+.mc-day.has-ev{color:var(--text);font-weight:700;}
+.mc-day.has-ev::after{content:'';position:absolute;bottom:3px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--purple);}
+.mc-day.today.has-ev::after{background:rgba(255,255,255,0.8);}
+.mc-day.oth{opacity:0.28;} .mc-day.sun{color:#ff3b30;} .mc-day.sat{color:#0071e3;}
+.mc-leg{margin-top:14px;padding-top:12px;border-top:1px solid var(--bl);display:flex;flex-direction:column;gap:5px;}
+.mc-li{display:flex;align-items:center;gap:6px;font-size:0.7rem;color:var(--t2);}
+.mc-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+
+/* ── MEMBERS ── */
+.members-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px;}
+.mcard{background:#fff;border:1px solid var(--bl);border-radius:var(--r);padding:28px 20px;text-align:center;transition:all 0.3s;position:relative;overflow:hidden;}
+.mcard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--purple));opacity:0;transition:opacity 0.3s;}
+.mcard:hover{box-shadow:var(--sh2);transform:translateY(-6px);}
+.mcard:hover::before{opacity:1;}
+.m-avatar{width:64px;height:64px;border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;border:2px solid var(--bl);}
+.av-b{background:rgba(0,113,227,0.1);} .av-p{background:rgba(88,86,212,0.1);} .av-g{background:rgba(52,199,89,0.1);} .av-o{background:rgba(255,159,10,0.1);} .av-r{background:rgba(255,59,48,0.1);}
+.m-role{display:inline-block;font-size:0.64rem;font-weight:700;color:var(--blue);background:rgba(0,113,227,0.08);padding:2px 8px;border-radius:5px;margin-bottom:6px;}
+.m-name{font-size:0.98rem;font-weight:800;margin-bottom:3px;}
+.m-duty{font-size:0.76rem;color:var(--t2);margin-bottom:14px;line-height:1.4;}
+.m-ext{display:flex;align-items:center;justify-content:center;gap:6px;font-size:0.79rem;color:var(--t2);background:var(--bg);border-radius:8px;padding:7px 12px;}
+.m-edit{position:absolute;top:10px;right:10px;background:rgba(255,159,10,0.1);border:1px solid rgba(255,159,10,0.3);color:var(--orange);font-size:0.64rem;padding:3px 8px;border-radius:6px;cursor:pointer;opacity:0;transition:opacity 0.2s;font-family:'Noto Sans KR',sans-serif;font-weight:700;}
+.mcard:hover .m-edit{opacity:1;}
+
+/* ── MAINTENANCE ── */
+.maint-layout{display:grid;grid-template-columns:1fr 340px;gap:28px;align-items:start;}
+.maint-form-card{background:#fff;border:1px solid var(--bl);border-radius:var(--r);padding:36px;box-shadow:var(--sh);}
+.mf-title{font-size:1.1rem;font-weight:800;margin-bottom:6px;}
+.mf-sub{font-size:0.82rem;color:var(--t2);margin-bottom:28px;line-height:1.6;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.form-group{display:flex;flex-direction:column;gap:6px;}
+.form-group.span2{grid-column:span 2;}
+.fl{font-size:0.76rem;font-weight:700;color:var(--text);}
+.fi{width:100%;background:var(--bg);border:1.5px solid var(--bl);border-radius:10px;padding:11px 14px;color:var(--text);font-size:0.87rem;outline:none;font-family:'Noto Sans KR',sans-serif;transition:border-color 0.2s;}
+.fi:focus{border-color:var(--blue);background:#fff;}
+textarea.fi{min-height:110px;resize:vertical;}
+.fi-hint{font-size:0.68rem;color:var(--t3);margin-top:2px;}
+.submit-btn{width:100%;margin-top:20px;background:var(--blue);color:#fff;font-family:'Noto Sans KR',sans-serif;font-weight:700;font-size:0.9rem;padding:14px;border:none;border-radius:980px;cursor:pointer;transition:all 0.25s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.submit-btn:hover{background:var(--blue-h);transform:scale(1.02);box-shadow:0 4px 16px rgba(0,113,227,0.35);}
+.submit-btn:disabled{opacity:0.6;transform:none;cursor:not-allowed;}
+.maint-success{background:#fff;border:1.5px solid rgba(52,199,89,0.4);border-radius:var(--r);padding:48px 36px;text-align:center;display:none;}
+.maint-success.show{display:block;}
+.success-icon{font-size:3.5rem;margin-bottom:16px;}
+.success-title{font-size:1.3rem;font-weight:800;margin-bottom:8px;color:var(--text);}
+.success-sub{font-size:0.88rem;color:var(--t2);margin-bottom:24px;line-height:1.7;}
+
+/* 유지보수 안내 사이드 */
+.maint-side{display:flex;flex-direction:column;gap:14px;}
+.maint-guide-card{background:#fff;border:1px solid var(--bl);border-radius:var(--r2);overflow:hidden;}
+.maint-guide-header{background:linear-gradient(135deg,#0071e3,#5856d6);padding:18px 20px;color:#fff;}
+.maint-guide-h{font-size:0.88rem;font-weight:800;margin-bottom:2px;}
+.maint-guide-sub{font-size:0.72rem;opacity:0.85;}
+.maint-guide-body{padding:18px 20px;}
+.maint-step{display:flex;gap:10px;align-items:flex-start;margin-bottom:12px;font-size:0.8rem;color:var(--t2);line-height:1.55;}
+.maint-step:last-child{margin-bottom:0;}
+.ms-num{background:var(--blue);color:#fff;min-width:20px;height:20px;border-radius:50%;font-size:0.64rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+
+/* ── RENTAL ── */
+.rental-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
+.req-card{background:#fff;border:1px solid var(--bl);border-radius:var(--r);padding:28px 24px;cursor:pointer;transition:all 0.3s;display:flex;flex-direction:column;gap:14px;position:relative;overflow:hidden;}
+.req-card::after{content:'→';position:absolute;bottom:24px;right:22px;color:var(--t3);font-size:1rem;transition:all 0.25s;}
+.req-card:hover{box-shadow:var(--sh2);transform:translateY(-6px);}
+.req-card:hover::after{color:var(--blue);transform:translateX(4px);}
+.req-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;}
+.ri-b{background:rgba(0,113,227,0.1);} .ri-p{background:rgba(88,86,212,0.1);} .ri-g{background:rgba(52,199,89,0.1);} .ri-o{background:rgba(255,159,10,0.1);}
+.req-title{font-size:1rem;font-weight:800;margin-bottom:2px;}
+.req-desc{font-size:0.79rem;color:var(--t2);line-height:1.55;}
+.req-dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 2s infinite;}
+.req-meta{display:flex;align-items:center;gap:6px;font-size:0.7rem;color:var(--t3);margin-top:auto;padding-top:4px;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.4}}
+
+/* ── MODALS ── */
+.mo{position:fixed;inset:0;background:rgba(0,0,0,0.4);backdrop-filter:blur(8px);z-index:200;display:none;align-items:center;justify-content:center;padding:24px;}
+.mo.active{display:flex;}
+.mc{background:#fff;border-radius:var(--r);padding:40px;max-width:520px;width:100%;position:relative;max-height:90vh;overflow-y:auto;box-shadow:0 24px 60px rgba(0,0,0,0.2);animation:popIn 0.3s cubic-bezier(0.34,1.56,0.64,1);}
+@keyframes popIn{from{opacity:0;transform:scale(0.9) translateY(16px);}to{opacity:1;transform:scale(1) translateY(0);}}
+.mc h3{font-size:1.1rem;font-weight:800;margin-bottom:6px;}
+.mc-sub{font-size:0.83rem;color:var(--t2);margin-bottom:22px;line-height:1.6;}
+.mclose{position:absolute;top:14px;right:14px;background:var(--bg);border:none;color:var(--t2);width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:0.85rem;transition:all 0.2s;}
+.mclose:hover{background:var(--bl);}
+.mi{width:100%;background:var(--bg);border:1.5px solid var(--bl);border-radius:10px;padding:11px 14px;color:var(--text);font-size:0.87rem;margin-bottom:10px;outline:none;font-family:'Noto Sans KR',sans-serif;transition:border-color 0.2s;}
+.mi:focus{border-color:var(--blue);background:#fff;}
+.ml{font-size:0.74rem;color:var(--t2);margin-bottom:5px;display:block;font-weight:700;}
+.mrow{display:flex;gap:8px;justify-content:flex-end;margin-top:10px;}
+.mgrid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+/* Notice view */
+.nv-badge{margin-bottom:12px;}
+.nv-date{font-size:0.76rem;color:var(--t3);margin-bottom:14px;}
+.nv-content{font-size:0.88rem;color:var(--t2);line-height:1.9;white-space:pre-wrap;background:var(--bg);border-radius:10px;padding:18px;}
+
+/* ── ADMIN ── */
+#adminOv{position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(12px);z-index:300;display:none;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto;}
+#adminOv.active{display:flex;}
+.ap{background:#fff;border-radius:var(--r);padding:36px;max-width:900px;width:100%;margin:auto;box-shadow:0 32px 80px rgba(0,0,0,0.2);animation:popIn 0.3s ease;}
+.ap-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;}
+.ap-title{font-size:1.1rem;font-weight:900;} .ap-title span{color:var(--orange);}
+.ap-close{background:var(--bg);border:none;color:var(--t2);padding:7px 14px;border-radius:10px;cursor:pointer;font-size:0.8rem;font-family:'Noto Sans KR',sans-serif;font-weight:700;transition:all 0.2s;}
+.ap-close:hover{background:var(--bl);}
+.atabs{display:flex;gap:6px;margin-bottom:24px;flex-wrap:wrap;}
+.atab{background:transparent;border:1.5px solid var(--bl);color:var(--t2);padding:7px 14px;border-radius:10px;cursor:pointer;font-size:0.8rem;font-family:'Noto Sans KR',sans-serif;font-weight:700;transition:all 0.2s;}
+.atab.active{background:var(--blue);border-color:var(--blue);color:#fff;}
+.atab:hover:not(.active){border-color:#86868b;color:var(--text);}
+.atc{display:none;} .atc.active{display:block;}
+.ab{background:var(--bg);border:1.5px solid var(--bl);border-radius:var(--r2);padding:22px;margin-bottom:16px;}
+.ab-t{font-size:0.87rem;font-weight:800;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;}
+.ai{width:100%;background:#fff;border:1.5px solid var(--bl);border-radius:10px;padding:10px 14px;color:var(--text);font-size:0.83rem;outline:none;font-family:'Noto Sans KR',sans-serif;transition:border-color 0.2s;margin-bottom:8px;}
+.ai:focus{border-color:var(--blue);} textarea.ai{min-height:68px;resize:vertical;}
+.ar{display:flex;gap:8px;} .ar .ai{flex:1;}
+.abtn{padding:9px 16px;border-radius:10px;border:none;cursor:pointer;font-size:0.8rem;font-family:'Noto Sans KR',sans-serif;font-weight:700;transition:all 0.2s;}
+.abp{background:var(--blue);color:#fff;} .abp:hover{background:var(--blue-h);}
+.abd{background:rgba(255,59,48,0.1);color:var(--red);border:1.5px solid rgba(255,59,48,0.2);}
+.abd:hover{background:rgba(255,59,48,0.18);}
+.abw{background:rgba(255,159,10,0.1);color:var(--orange);border:1.5px solid rgba(255,159,10,0.25);}
+.abw:hover{background:rgba(255,159,10,0.2);}
+.abg{background:transparent;border:1.5px solid var(--border);color:var(--t2);}
+.abg:hover{border-color:#86868b;color:var(--text);}
+.abs{padding:5px 11px;font-size:0.74rem;}
+.alist{display:flex;flex-direction:column;gap:8px;}
+.ai-item{background:#fff;border:1.5px solid var(--bl);border-radius:10px;padding:12px 14px;display:flex;align-items:center;gap:10px;}
+.ai-info{flex:1;min-width:0;}
+.ai-t{font-size:0.83rem;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.ai-m{font-size:0.7rem;color:var(--t3);margin-top:1px;}
+.ai-acts{display:flex;gap:5px;flex-shrink:0;}
+.a-empty{text-align:center;padding:24px;color:var(--t3);font-size:0.82rem;}
+.amg{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.amcard{background:#fff;border:1.5px solid var(--bl);border-radius:10px;padding:14px;}
+.am-hdr{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.am-av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.am-name{font-size:0.85rem;font-weight:800;} .am-sub{font-size:0.7rem;color:var(--t3);}
+.am-acts{display:flex;gap:5px;margin-top:10px;justify-content:flex-end;}
+/* req manage */
+.rm-item{background:#fff;border:1.5px solid var(--bl);border-radius:10px;padding:12px 14px;display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.rm-icon{font-size:1.1rem;flex-shrink:0;}
+.rm-info{flex:1;}
+.rm-title{font-size:0.83rem;font-weight:700;}
+.rm-url-input{width:100%;background:var(--bg);border:1.5px solid var(--bl);border-radius:7px;padding:6px 10px;font-size:0.73rem;outline:none;font-family:'Noto Sans KR',sans-serif;margin-top:5px;transition:border-color 0.2s;}
+.rm-url-input:focus{border-color:var(--blue);}
+/* Sheets */
+.code-b{background:var(--bg);border:1.5px solid var(--bl);border-radius:10px;padding:14px;font-family:monospace;font-size:0.73rem;color:var(--text);line-height:1.6;overflow-x:auto;white-space:pre;margin:8px 0;}
+.ic{font-family:monospace;background:var(--bg);border:1px solid var(--bl);padding:1px 5px;border-radius:4px;font-size:0.75rem;color:var(--blue);}
+.gs{display:flex;gap:10px;margin-bottom:12px;font-size:0.8rem;color:var(--t2);line-height:1.6;}
+.gsn{background:var(--blue);color:#fff;font-size:0.62rem;font-weight:800;min-width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.si2{width:100%;background:var(--bg);border:1.5px solid rgba(52,199,89,0.4);border-radius:10px;padding:10px 14px;color:var(--text);font-size:0.82rem;outline:none;font-family:monospace;margin:8px 0;transition:border-color 0.2s;}
+.si2:focus{border-color:var(--green);}
+.ss-s{font-size:0.76rem;min-height:18px;} .ss-ok{color:var(--green);} .ss-err{color:var(--red);}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:rgba(29,29,31,0.9);color:#fff;font-size:0.83rem;font-weight:700;padding:11px 22px;border-radius:20px;z-index:500;opacity:0;transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);white-space:nowrap;backdrop-filter:blur(8px);}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+.toast.warn{background:rgba(255,159,10,0.9);} .toast.err{background:rgba(255,59,48,0.9);}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  nav{padding:0 16px;} .nav-links{display:none;}
+  .hero-inner{grid-template-columns:1fr;} .hero-visual{display:none;}
+  .hero h1{font-size:2.4rem;}
+  .pg-hero{padding:40px 20px 30px;flex-direction:column;gap:16px;}
+  .pg-body{padding:28px 20px;}
+  .pg-grid,.cal-layout,.maint-layout{grid-template-columns:1fr;}
+  .mini-cal{position:static;}
+  .hero-cards{padding:24px 20px;} .hero-cards-inner{grid-template-columns:1fr 1fr;}
+  .footer-i{grid-template-columns:1fr 1fr;} .amg{grid-template-columns:1fr;}
+}
+@media(max-width:520px){
+  .hero h1{font-size:2rem;} .hero-cards-inner{grid-template-columns:1fr 1fr;} .rental-grid{grid-template-columns:1fr;} .members-grid{grid-template-columns:1fr 1fr;}
+}
+
+/* FOOTER */
+footer{background:var(--text);color:rgba(255,255,255,0.55);padding:40px 48px 28px;}
+.footer-inner{max-width:1140px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:28px;}
+.fb-name{font-size:0.9rem;font-weight:800;color:#fff;margin-bottom:8px;}
+.fb-p{font-size:0.76rem;line-height:1.7;}
+.fc h4{font-size:0.68rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:12px;}
+.fc ul{list-style:none;}
+.fc li{margin-bottom:7px;}
+.fc a{color:rgba(255,255,255,0.55);text-decoration:none;font-size:0.78rem;transition:color 0.2s;cursor:pointer;}
+.fc a:hover{color:#fff;}
+.footer-bot{max-width:1140px;margin:0 auto;padding-top:20px;border-top:1px solid rgba(255,255,255,0.1);display:flex;justify-content:space-between;align-items:center;font-size:0.73rem;}
+.f-status{display:flex;align-items:center;gap:6px;color:var(--green);}
+
+/* fade-up animation */
+.fu{opacity:0;transform:translateY(22px);transition:opacity 0.55s ease,transform 0.55s ease;}
+.fu.in{opacity:1;transform:translateY(0);}
+.fu:nth-child(2){transition-delay:0.07s;} .fu:nth-child(3){transition-delay:0.14s;}
+.fu:nth-child(4){transition-delay:0.21s;} .fu:nth-child(5){transition-delay:0.28s;}
+.fu:nth-child(6){transition-delay:0.35s;}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-logo" onclick="showPage('home')">
+    <img src="data:image/png;base64,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" alt="서울나래학교">
+    <div class="nav-logo-sep"></div>
+    <span class="nav-logo-text">과학정보부</span>
+  </a>
+  <ul class="nav-links">
+    <li><a onclick="showPage('notices')" data-page="notices">공지사항</a></li>
+    <li><a onclick="showPage('calendar')" data-page="calendar">학사일정</a></li>
+    <li><a onclick="showPage('members')" data-page="members">담당 교사</a></li>
+    <li><a onclick="showPage('maintenance')" data-page="maintenance">유지보수 요청</a></li>
+    <li><a onclick="showPage('itRental')" data-page="itRental">정보화기기 대여</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="nbtn nbtn-g" onclick="openAdminLogin()">🔐 관리자</button>
+    <div class="nav-dropdown" id="navDropdown">
+      <button class="nav-dd-btn" onclick="toggleDropdown()">
+        바로가기 <span class="dd-arrow">▼</span>
+      </button>
+      <div class="nav-dd-menu">
+        <div class="nav-dd-item" onclick="navGo('notices')">
+          <div class="dd-icon" style="background:rgba(0,113,227,0.1);">📢</div>
+          <div><div>공지사항</div><div class="nav-dd-desc">최신 소식 확인</div></div>
+        </div>
+        <div class="nav-dd-item" onclick="navGo('calendar')">
+          <div class="dd-icon" style="background:rgba(52,199,89,0.12);">📅</div>
+          <div><div>학사일정</div><div class="nav-dd-desc">행사 · 방학 일정</div></div>
+        </div>
+        <div class="nav-dd-item" onclick="navGo('maintenance')">
+          <div class="dd-icon" style="background:rgba(255,159,10,0.12);">🛠️</div>
+          <div><div>유지보수 요청</div><div class="nav-dd-desc">기기 수리 접수</div></div>
+        </div>
+        <div class="nav-dd-item" onclick="navGo('itRental')">
+          <div class="dd-icon" style="background:rgba(88,86,212,0.1);">💻</div>
+          <div><div>정보화기기 대여</div><div class="nav-dd-desc">항목별 대여 신청</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══ HOME PAGE ═══ -->
+<div id="page-home" class="page active">
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <h1>과학정보부<br><em>통합 서비스</em></h1>
+      <p class="hero-sub">기기 유지보수, 대여 신청, 공지 확인까지<br>모든 서비스를 한 곳에서 이용하세요.</p>
+      <div class="hero-btns">
+        <button class="btn btn-blue" onclick="showPage('maintenance')">유지보수 요청</button>
+        <button class="btn btn-white" onclick="showPage('notices')">공지 확인</button>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <svg viewBox="0 0 500 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="g1" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#0071e3" stop-opacity="0.12"/><stop offset="100%" stop-color="#0071e3" stop-opacity="0"/></radialGradient>
+          <radialGradient id="g2" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#5856d6" stop-opacity="0.1"/><stop offset="100%" stop-color="#5856d6" stop-opacity="0"/></radialGradient>
+        </defs>
+        <circle cx="280" cy="200" r="200" fill="url(#g1)"/>
+        <circle cx="380" cy="120" r="140" fill="url(#g2)"/>
+        <!-- Grid dots -->
+        <g opacity="0.18">
+          <circle cx="60" cy="60" r="3" fill="#0071e3"/> <circle cx="120" cy="60" r="3" fill="#0071e3"/> <circle cx="180" cy="60" r="3" fill="#0071e3"/> <circle cx="240" cy="60" r="3" fill="#0071e3"/> <circle cx="300" cy="60" r="3" fill="#0071e3"/> <circle cx="360" cy="60" r="3" fill="#0071e3"/> <circle cx="420" cy="60" r="3" fill="#0071e3"/>
+          <circle cx="60" cy="120" r="3" fill="#0071e3"/> <circle cx="120" cy="120" r="3" fill="#0071e3"/> <circle cx="180" cy="120" r="3" fill="#0071e3"/> <circle cx="240" cy="120" r="3" fill="#0071e3"/> <circle cx="300" cy="120" r="3" fill="#0071e3"/> <circle cx="360" cy="120" r="3" fill="#0071e3"/> <circle cx="420" cy="120" r="3" fill="#0071e3"/>
+          <circle cx="60" cy="180" r="3" fill="#0071e3"/> <circle cx="120" cy="180" r="3" fill="#0071e3"/> <circle cx="180" cy="180" r="3" fill="#0071e3"/> <circle cx="240" cy="180" r="3" fill="#0071e3"/> <circle cx="300" cy="180" r="3" fill="#0071e3"/> <circle cx="360" cy="180" r="3" fill="#0071e3"/> <circle cx="420" cy="180" r="3" fill="#0071e3"/>
+          <circle cx="60" cy="240" r="3" fill="#0071e3"/> <circle cx="120" cy="240" r="3" fill="#0071e3"/> <circle cx="180" cy="240" r="3" fill="#0071e3"/> <circle cx="240" cy="240" r="3" fill="#0071e3"/> <circle cx="300" cy="240" r="3" fill="#0071e3"/> <circle cx="360" cy="240" r="3" fill="#0071e3"/> <circle cx="420" cy="240" r="3" fill="#0071e3"/>
+          <circle cx="60" cy="300" r="3" fill="#0071e3"/> <circle cx="120" cy="300" r="3" fill="#0071e3"/> <circle cx="180" cy="300" r="3" fill="#0071e3"/> <circle cx="240" cy="300" r="3" fill="#0071e3"/> <circle cx="300" cy="300" r="3" fill="#0071e3"/> <circle cx="360" cy="300" r="3" fill="#0071e3"/> <circle cx="420" cy="300" r="3" fill="#0071e3"/>
+          <circle cx="60" cy="360" r="3" fill="#0071e3"/> <circle cx="120" cy="360" r="3" fill="#0071e3"/> <circle cx="180" cy="360" r="3" fill="#0071e3"/> <circle cx="240" cy="360" r="3" fill="#0071e3"/> <circle cx="300" cy="360" r="3" fill="#0071e3"/> <circle cx="360" cy="360" r="3" fill="#0071e3"/> <circle cx="420" cy="360" r="3" fill="#0071e3"/>
+        </g>
+        <!-- Floating cards -->
+        <g transform="translate(100,80)">
+          <rect width="140" height="80" rx="14" fill="white" filter="url(#sh1)"/>
+          <text x="16" y="30" font-size="22">🛠️</text>
+          <text x="48" y="28" font-size="12" font-weight="700" fill="#1d1d1f" font-family="sans-serif">유지보수</text>
+          <text x="48" y="44" font-size="10" fill="#6e6e73" font-family="sans-serif">기기 수리 접수</text>
+          <rect x="16" y="56" width="108" height="8" rx="4" fill="#f5f5f7"/>
+          <rect x="16" y="56" width="72" height="8" rx="4" fill="#0071e3"/>
+        </g>
+        <g transform="translate(280,160)">
+          <rect width="140" height="80" rx="14" fill="white" filter="url(#sh1)"/>
+          <text x="16" y="30" font-size="22">📦</text>
+          <text x="48" y="28" font-size="12" font-weight="700" fill="#1d1d1f" font-family="sans-serif">기기 대여</text>
+          <text x="48" y="44" font-size="10" fill="#6e6e73" font-family="sans-serif">노트북 · 태블릿</text>
+          <rect x="16" y="56" width="108" height="8" rx="4" fill="#f5f5f7"/>
+          <rect x="16" y="56" width="88" height="8" rx="4" fill="#5856d6"/>
+        </g>
+        <g transform="translate(80,240)">
+          <rect width="140" height="80" rx="14" fill="white" filter="url(#sh1)"/>
+          <text x="16" y="30" font-size="22">📢</text>
+          <text x="48" y="28" font-size="12" font-weight="700" fill="#1d1d1f" font-family="sans-serif">공지사항</text>
+          <text x="48" y="44" font-size="10" fill="#6e6e73" font-family="sans-serif">최신 소식 확인</text>
+          <circle cx="108" cy="20" r="10" fill="#ff3b30"/><text x="108" y="24" font-size="9" fill="white" text-anchor="middle" font-weight="700">3</text>
+        </g>
+        <!-- Connection lines -->
+        <line x1="240" y1="120" x2="280" y2="160" stroke="#0071e3" stroke-width="1.5" stroke-opacity="0.2" stroke-dasharray="4 4"/>
+        <line x1="150" y1="160" x2="280" y2="200" stroke="#5856d6" stroke-width="1.5" stroke-opacity="0.2" stroke-dasharray="4 4"/>
+        <defs><filter id="sh1" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="4" stdDeviation="8" flood-opacity="0.1"/></filter></defs>
+      </svg>
+    </div>
+  </div>
+</section>
+<div class="hero-cards">
+  <div class="hero-cards-inner" style="grid-template-columns:repeat(4,1fr);">
+    <div class="hcard fu" onclick="showPage('notices')"><div class="hcard-icon">📢</div><div class="hcard-title">공지사항</div><div class="hcard-sub">최신 소식 확인</div></div>
+    <div class="hcard fu" onclick="showPage('calendar')"><div class="hcard-icon">📅</div><div class="hcard-title">학사일정</div><div class="hcard-sub">행사 · 방학 일정</div></div>
+    <div class="hcard fu" onclick="showPage('maintenance')"><div class="hcard-icon">🛠️</div><div class="hcard-title">유지보수 요청</div><div class="hcard-sub">기기 수리 접수</div></div>
+    <div class="hcard fu" onclick="showPage('itRental')"><div class="hcard-icon">💻</div><div class="hcard-title">정보화기기 대여</div><div class="hcard-sub">항목별 대여 신청</div></div>
+  </div>
+</div>
+</div>
+
+<!-- ═══ 공지사항 PAGE ═══ -->
+<div id="page-notices" class="page">
+<div class="pg-hero">
+  <svg width="72" height="72" viewBox="0 0 72 72" fill="none"><rect width="72" height="72" rx="18" fill="rgba(0,113,227,0.1)"/><text x="36" y="46" font-size="32" text-anchor="middle">📢</text></svg>
+  <div class="pg-hero-text">
+    <div class="pg-label">공지사항</div>
+    <div class="pg-title">새 소식</div>
+    <div class="pg-sub">과학정보부의 최신 공지를 확인하세요. 클릭하면 내용을 볼 수 있습니다.</div>
+  </div>
+</div>
+<div class="pg-body">
+  <div class="notice-list fu" id="noticeList" style="max-width:760px;"></div>
+</div>
+</div>
+
+<!-- ═══ 학사일정 PAGE ═══ -->
+<div id="page-calendar" class="page">
+<div class="pg-hero">
+  <svg width="72" height="72" viewBox="0 0 72 72" fill="none"><rect width="72" height="72" rx="18" fill="rgba(52,199,89,0.12)"/><text x="36" y="46" font-size="32" text-anchor="middle">📅</text></svg>
+  <div class="pg-hero-text">
+    <div class="pg-label">학사일정</div>
+    <div class="pg-title">주요 일정</div>
+    <div class="pg-sub">과학정보 관련 행사 및 학교 주요 일정을 확인하세요.</div>
+  </div>
+</div>
+<div class="pg-body">
+  <div class="ftabs">
+    <button class="ftab active" onclick="filterSched('all',this)">전체</button>
+    <button class="ftab" onclick="filterSched('sci',this)">과학정보 행사</button>
+    <button class="ftab" onclick="filterSched('school',this)">학교 일정</button>
+    <button class="ftab" onclick="filterSched('vacation',this)">방학</button>
+  </div>
+  <div class="cal-layout">
+    <div class="sched-list fu" id="scheduleList"></div>
+    <div class="mini-cal fu">
+      <div class="mc-hdr">
+        <button class="mc-nav" onclick="changeMonth(-1)">‹</button>
+        <div class="mc-t" id="calTitle"></div>
+        <button class="mc-nav" onclick="changeMonth(1)">›</button>
+      </div>
+      <div class="mc-grid" id="calGrid"></div>
+      <div class="mc-leg">
+        <div class="mc-li"><div class="mc-dot" style="background:var(--blue);"></div>오늘</div>
+        <div class="mc-li"><div class="mc-dot" style="background:var(--purple);"></div>일정 있음</div>
+        <div class="mc-li"><span style="font-size:0.7rem;color:#ff3b30;">일</span>일요일</div>
+        <div class="mc-li"><span style="font-size:0.7rem;color:#0071e3;">토</span>토요일</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══ 담당교사 PAGE ═══ -->
+<div id="page-members" class="page">
+<div class="pg-hero">
+  <svg width="72" height="72" viewBox="0 0 72 72" fill="none"><rect width="72" height="72" rx="18" fill="rgba(88,86,212,0.1)"/><text x="36" y="46" font-size="32" text-anchor="middle">👨‍🏫</text></svg>
+  <div class="pg-hero-text">
+    <div class="pg-label">담당 교사</div>
+    <div class="pg-title">과학정보부 교사 연락처</div>
+    <div class="pg-sub">담당 업무에 맞는 교사에게 직접 문의하세요. 내선 번호는 교내 전화에서 사용 가능합니다.</div>
+  </div>
+</div>
+<div class="pg-body">
+  <div class="members-grid" id="membersGrid"></div>
+  <div style="margin-top:20px;padding:15px 20px;background:rgba(0,113,227,0.05);border:1px solid rgba(0,113,227,0.12);border-radius:12px;font-size:0.8rem;color:var(--t2);display:flex;align-items:center;gap:10px;" class="fu">
+    <span>ℹ️</span>담당자 부재 시 부장 교사에게 문의해 주세요.
+  </div>
+</div>
+</div>
+
+<!-- ═══ 유지보수 요청 PAGE ═══ -->
+<div id="page-maintenance" class="page">
+<div class="pg-hero">
+  <svg width="72" height="72" viewBox="0 0 72 72" fill="none"><rect width="72" height="72" rx="18" fill="rgba(255,159,10,0.12)"/><text x="36" y="46" font-size="32" text-anchor="middle">🛠️</text></svg>
+  <div class="pg-hero-text">
+    <div class="pg-label">유지보수 요청</div>
+    <div class="pg-title">기기 수리 · 장애 접수</div>
+    <div class="pg-sub">접수 내용은 Google Sheets에 자동으로 기록되어 담당 교사가 확인합니다.</div>
+  </div>
+</div>
+<div class="pg-body">
+  <div class="maint-layout">
+    <!-- Form -->
+    <div>
+      <div class="maint-form-card" id="maintFormCard">
+        <div class="mf-title">유지보수 신청서</div>
+        <div class="mf-sub">모든 항목을 정확히 기재해 주시면 빠른 처리에 도움이 됩니다.</div>
+        <div class="form-grid">
+          <div class="form-group"><label class="fl">날짜</label><input class="fi" id="mf-date" type="date" required></div>
+          <div class="form-group"><label class="fl">신청인 (이름)</label><input class="fi" id="mf-name" placeholder="홍길동" required></div>
+          <div class="form-group"><label class="fl">장소 · 위치</label><input class="fi" id="mf-loc" placeholder="예: 4층 고1-1" required></div>
+          <div class="form-group"><label class="fl">기기명</label><input class="fi" id="mf-device" placeholder="예: 컴퓨터, 프린터, 빔프로젝터" required></div>
+          <div class="form-group span2">
+            <label class="fl">문제 증상 (상세 기재)</label>
+            <textarea class="fi" id="mf-content" placeholder="발생한 문제를 구체적으로 설명해 주세요.&#10;예) 인터넷 접속 시 '네트워크에 연결되어 있지 않습니다.' 문구가 뜨며 인터넷이 실행되지 않음" required></textarea>
+            <div class="fi-hint">장소/위치, 기기명, 문제 증상을 모두 포함해 주세요.</div>
+          </div>
+        </div>
+        <button class="submit-btn" id="submitMaintBtn" onclick="submitMaintenance()">
+          <span id="submitBtnText">접수하기</span>
+        </button>
+        <div id="maintUrlWarning" style="display:none;margin-top:14px;padding:12px 16px;background:rgba(255,159,10,0.08);border:1px solid rgba(255,159,10,0.25);border-radius:10px;font-size:0.78rem;color:var(--orange);">
+          ⚠️ 관리자 패널 → Sheets 연동 탭에서 유지보수 신청 URL을 먼저 설정해 주세요.
+        </div>
+      </div>
+      <!-- Success -->
+      <div class="maint-success" id="maintSuccess">
+        <div class="success-icon">✅</div>
+        <div class="success-title">접수가 완료되었습니다!</div>
+        <div class="success-sub">담당 교사가 확인 후 연락드리겠습니다.<br>평균 처리 시간: 2시간 이내</div>
+        <button class="btn btn-blue" onclick="resetMaintForm()">새 요청 접수</button>
+      </div>
+    </div>
+    <!-- Side guide -->
+    <div class="maint-side fu">
+      <div class="maint-guide-card">
+        <div class="maint-guide-header">
+          <div class="maint-guide-h">📋 접수 안내</div>
+          <div class="maint-guide-sub">이렇게 처리됩니다</div>
+        </div>
+        <div class="maint-guide-body">
+          <div class="maint-step"><div class="ms-num">1</div><div>신청서를 작성하고 <b>접수하기</b> 버튼을 누릅니다.</div></div>
+          <div class="maint-step"><div class="ms-num">2</div><div>접수 내용이 <b>Google Sheets</b>에 자동으로 기록됩니다.</div></div>
+          <div class="maint-step"><div class="ms-num">3</div><div>담당 교사가 확인 후 <b>별도로 연락드립니다.</b></div></div>
+          <div class="maint-step"><div class="ms-num">4</div><div>긴급 장애는 담당 교사에게 <b>직접 연락</b>해 주세요.</div></div>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid var(--bl);border-radius:var(--r2);padding:18px;">
+        <div style="font-size:0.82rem;font-weight:800;margin-bottom:10px;">최근 접수 현황</div>
+        <div id="recentMaint" style="font-size:0.76rem;color:var(--t3);">접수 내역을 불러오는 중...</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══ 기기 대여 PAGE ═══ -->
+<div id="page-rental" class="page">
+<div class="pg-hero">
+  <svg width="72" height="72" viewBox="0 0 72 72" fill="none"><rect width="72" height="72" rx="18" fill="rgba(88,86,212,0.1)"/><text x="36" y="46" font-size="32" text-anchor="middle">📦</text></svg>
+  <div class="pg-hero-text">
+    <div class="pg-label">기기 대여</div>
+    <div class="pg-title">기기 대여 신청</div>
+    <div class="pg-sub">노트북, 태블릿 등을 최대 5일간 대여할 수 있습니다. 아래 항목을 선택해 신청하세요.</div>
+  </div>
+</div>
+<div class="pg-body">
+  <div class="rental-grid" id="requestGrid"></div>
+  <div style="margin-top:24px;background:#fff;border:1px solid var(--bl);border-radius:var(--r2);padding:22px;" class="fu">
+    <div style="font-size:0.88rem;font-weight:800;margin-bottom:10px;">📌 대여 규정</div>
+    <ul style="font-size:0.82rem;color:var(--t2);line-height:2;list-style:none;">
+      <li>✅ 최대 대여 기간: 5일 (1회 연장 가능)</li>
+      <li>✅ 반납 기한 초과 시 다음 대여 제한</li>
+      <li>✅ 기기 파손·분실 시 담당 교사에게 즉시 신고</li>
+      <li>✅ 대여 전 상태 확인 및 수령증 서명 필수</li>
+    </ul>
+  </div>
+</div>
+</div>
+
+<!-- ═══ 정보화기기 대여 PAGE ═══ -->
+<div id="page-itRental" class="page">
+<div class="pg-hero">
+  <svg width="72" height="72" viewBox="0 0 72 72" fill="none"><rect width="72" height="72" rx="18" fill="rgba(52,199,89,0.12)"/><text x="36" y="46" font-size="32" text-anchor="middle">💻</text></svg>
+  <div class="pg-hero-text">
+    <div class="pg-label">정보화기기 대여</div>
+    <div class="pg-title">정보화기기 대여 신청</div>
+    <div class="pg-sub">항목(담당자)을 선택하고 대여할 기기명, 수량, 대여자를 입력하세요. 접수 내용은 Google Sheets에 자동으로 기록됩니다.</div>
+  </div>
+</div>
+<div class="pg-body">
+  <div class="maint-layout">
+    <div>
+      <div class="maint-form-card" id="itFormCard">
+        <div class="mf-title">정보화기기 대여 신청서</div>
+        <div class="mf-sub">항목과 기기명을 정확히 선택해 주세요.</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="fl">일자</label>
+            <input class="fi" id="it-date" type="date" required>
+          </div>
+          <div class="form-group">
+            <label class="fl">항목 (담당자)</label>
+            <select class="fi" id="it-dept" required>
+              <option value="">선택하세요</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="fl">기기명</label>
+            <input class="fi" id="it-device" placeholder="예: 웹캠, 블루투스 동글, 태블릿" required>
+          </div>
+          <div class="form-group">
+            <label class="fl">개수</label>
+            <input class="fi" id="it-qty" type="number" min="1" value="1" required>
+          </div>
+          <div class="form-group span2">
+            <label class="fl">대여자 (이름)</label>
+            <input class="fi" id="it-borrower" placeholder="성함을 입력하세요" required>
+          </div>
+        </div>
+        <button class="submit-btn" id="submitItBtn" onclick="submitItRental()">
+          <span id="submitItBtnText">신청하기</span>
+        </button>
+        <div id="itUrlWarning" style="display:none;margin-top:14px;padding:12px 16px;background:rgba(255,159,10,0.08);border:1px solid rgba(255,159,10,0.25);border-radius:10px;font-size:0.78rem;color:var(--orange);">
+          ⚠️ 관리자 패널 → Sheets 연동 탭에서 정보화기기 대여 신청 URL을 먼저 설정해 주세요.
+        </div>
+      </div>
+      <div class="maint-success" id="itSuccess">
+        <div class="success-icon">✅</div>
+        <div class="success-title">신청이 완료되었습니다!</div>
+        <div class="success-sub">담당자가 확인 후 안내드리겠습니다.</div>
+        <button class="btn btn-blue" onclick="resetItForm()">새 신청 접수</button>
+      </div>
+    </div>
+    <div class="maint-side fu">
+      <div class="maint-guide-card">
+        <div class="maint-guide-header">
+          <div class="maint-guide-h">📋 대여 안내</div>
+          <div class="maint-guide-sub">항목별 담당자</div>
+        </div>
+        <div class="maint-guide-body">
+          <div id="itDeptGuide">
+            <!-- 담당자 목록: JS로 렌더 -->
+          </div>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid var(--bl);border-radius:var(--r2);padding:18px;">
+        <div style="font-size:0.82rem;font-weight:800;margin-bottom:10px;">최근 대여 내역</div>
+        <div id="recentItRental" style="font-size:0.76rem;color:var(--t3);">접수 내역을 불러오는 중...</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══ 공지 내용 보기 모달 ═══ -->
+<div class="mo" id="noticeViewMo" onclick="if(event.target===this)this.classList.remove('active')">
+  <div class="mc" style="max-width:580px;">
+    <button class="mclose" onclick="document.getElementById('noticeViewMo').classList.remove('active')">✕</button>
+    <div id="noticeViewContent"></div>
+  </div>
+</div>
+
+<!-- ═══ 관리자 로그인 ═══ -->
+<div class="mo" id="adminLoginMo" onclick="if(event.target===this)this.classList.remove('active')">
+  <div class="mc" style="max-width:360px;">
+    <button class="mclose" onclick="document.getElementById('adminLoginMo').classList.remove('active')">✕</button>
+    <h3>🔐 관리자 로그인</h3>
+    <p class="mc-sub">관리자 비밀번호를 입력하세요.</p>
+    <label class="ml">비밀번호</label>
+    <input type="password" class="mi" id="adminPwInput" placeholder="비밀번호" onkeydown="if(event.key==='Enter')checkAdminPw()">
+    <div class="mrow"><button class="btn btn-blue" onclick="checkAdminPw()">로그인</button></div>
+    <p style="font-size:0.71rem;color:var(--t3);margin-top:12px;">기본: <code>skfo2026</code> · 설정 탭에서 변경 가능</p>
+  </div>
+</div>
+
+<!-- ═══ 부원 수정 모달 ═══ -->
+<div class="mo" id="memberEditMo" onclick="if(event.target===this)this.classList.remove('active')">
+  <div class="mc" style="max-width:500px;">
+    <button class="mclose" onclick="document.getElementById('memberEditMo').classList.remove('active')">✕</button>
+    <h3>✏️ 교사 정보 수정</h3>
+    <input type="hidden" id="me-id">
+    <div class="mgrid2">
+      <div><label class="ml">이름</label><input class="mi" id="me-name" placeholder="이름"></div>
+      <div><label class="ml">직책</label><input class="mi" id="me-role" placeholder="부장 교사 등"></div>
+      <div style="grid-column:span 2;"><label class="ml">담당 업무</label><input class="mi" id="me-duty" placeholder="과학실 관리, IT 유지보수 등"></div>
+      <div><label class="ml">내선 번호</label><input class="mi" id="me-ext" placeholder="1234"></div>
+      <div><label class="ml">이모지 아이콘</label><input class="mi" id="me-emoji" placeholder="👨‍🏫"></div>
+      <div><label class="ml">카드 색상</label>
+        <select class="mi" id="me-avatar">
+          <option value="av-b">파랑</option><option value="av-p">보라</option>
+          <option value="av-g">초록</option><option value="av-o">주황</option><option value="av-r">빨강</option>
+        </select>
+      </div>
+    </div>
+    <div class="mrow">
+      <button class="btn btn-white" onclick="document.getElementById('memberEditMo').classList.remove('active')">취소</button>
+      <button class="btn btn-blue" onclick="saveMemberEdit()">저장</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 요청 항목 추가 모달 ═══ -->
+<div class="mo" id="reqAddMo" onclick="if(event.target===this)this.classList.remove('active')">
+  <div class="mc" style="max-width:440px;">
+    <button class="mclose" onclick="document.getElementById('reqAddMo').classList.remove('active')">✕</button>
+    <h3>➕ 대여 항목 추가</h3>
+    <p class="mc-sub">새 대여 유형을 추가하세요. Google 설문지 URL을 입력하면 연결됩니다.</p>
+    <label class="ml">아이콘 이모지</label><input class="mi" id="ra-emoji" placeholder="📱">
+    <label class="ml">항목 이름</label><input class="mi" id="ra-title" placeholder="태블릿 대여">
+    <label class="ml">설명</label><input class="mi" id="ra-desc" placeholder="간단한 설명">
+    <label class="ml">Google 설문지 URL</label><input class="mi" id="ra-url" placeholder="https://forms.gle/...">
+    <div class="mrow">
+      <button class="btn btn-white" onclick="document.getElementById('reqAddMo').classList.remove('active')">취소</button>
+      <button class="btn btn-blue" onclick="saveNewReq()">추가</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 관리자 패널 ═══ -->
+<div id="adminOv">
+  <div class="ap">
+    <div class="ap-hdr">
+      <div class="ap-title">⚙️ <span>관리자 패널</span></div>
+      <button class="ap-close" onclick="closeAdmin()">✕ 닫기</button>
+    </div>
+    <div class="atabs">
+      <button class="atab active" onclick="switchTab('notices')">📢 공지사항</button>
+      <button class="atab" onclick="switchTab('schedule')">📅 학사일정</button>
+      <button class="atab" onclick="switchTab('members')">👥 교사 관리</button>
+      <button class="atab" onclick="switchTab('reqs')">📦 대여 항목</button>
+      <button class="atab" onclick="switchTab('sheets')">📊 Sheets 연동</button>
+      <button class="atab" onclick="switchTab('settings')">🛠️ 설정</button>
+    </div>
+
+    <!-- 공지사항 탭 -->
+    <div class="atc active" id="tab-notices">
+      <div class="ab">
+        <div class="ab-t">➕ 공지 추가</div>
+        <div class="ar">
+          <select class="ai" id="n-badge"><option value="nb-new">NEW</option><option value="nb-imp">중요</option><option value="nb-event">행사</option><option value="nb-gen">일반</option></select>
+          <input class="ai" id="n-date" type="date">
+        </div>
+        <input class="ai" id="n-title" placeholder="공지 제목">
+        <textarea class="ai" id="n-content" placeholder="공지 내용 (클릭 시 팝업으로 표시됩니다)"></textarea>
+        <button class="abtn abp" onclick="addNotice()">공지 추가</button>
+      </div>
+      <div class="ab"><div class="ab-t">등록된 공지 (<span id="notice-count">0</span>건)</div><div class="alist" id="admin-notice-list"></div></div>
+    </div>
+
+    <!-- 학사일정 탭 -->
+    <div class="atc" id="tab-schedule">
+      <div class="ab">
+        <div class="ab-t">➕ 일정 추가</div>
+        <input class="ai" id="s-title" placeholder="일정 제목">
+        <textarea class="ai" id="s-desc" placeholder="상세 설명 (선택)"></textarea>
+        <div class="ar">
+          <input class="ai" id="s-date" type="date" title="시작일">
+          <input class="ai" id="s-end" type="date" title="종료일 (선택)">
+        </div>
+        <div class="ar">
+          <select class="ai" id="s-tag1"><option value="">태그1</option><option value="stag-sci">과학정보 행사</option><option value="stag-school">학교 일정</option><option value="stag-vacation">방학</option><option value="stag-info">안내</option></select>
+          <select class="ai" id="s-tag2"><option value="">태그2</option><option value="stag-sci">과학정보 행사</option><option value="stag-school">학교 일정</option><option value="stag-vacation">방학</option><option value="stag-info">안내</option></select>
+        </div>
+        <button class="abtn abp" onclick="addSchedule()">일정 추가</button>
+      </div>
+      <div class="ab"><div class="ab-t">등록된 일정 (<span id="sched-count">0</span>건)</div><div class="alist" id="admin-sched-list"></div></div>
+    </div>
+
+    <!-- 교사 관리 탭 -->
+    <div class="atc" id="tab-members">
+      <div class="ab">
+        <div class="ab-t">➕ 교사 추가</div>
+        <div class="ar"><input class="ai" id="m-name" placeholder="이름"><input class="ai" id="m-role" placeholder="직책"></div>
+        <input class="ai" id="m-duty" placeholder="담당 업무">
+        <div class="ar"><input class="ai" id="m-ext" placeholder="내선 번호"><input class="ai" id="m-emoji" placeholder="이모지 🧑‍🏫"><select class="ai" id="m-avatar"><option value="av-b">파랑</option><option value="av-p">보라</option><option value="av-g">초록</option><option value="av-o">주황</option><option value="av-r">빨강</option></select></div>
+        <button class="abtn abp" onclick="addMember()">교사 추가</button>
+      </div>
+      <div class="ab"><div class="ab-t">등록된 교사 (<span id="member-count">0</span>명)</div><div class="amg" id="admin-member-list"></div></div>
+    </div>
+
+    <!-- 대여 항목 탭 -->
+    <div class="atc" id="tab-reqs">
+      <div class="ab">
+        <div class="ab-t">
+          대여 항목 관리 (<span id="req-count">0</span>개)
+          <button class="abtn abp abs" onclick="document.getElementById('reqAddMo').classList.add('active')">➕ 추가</button>
+        </div>
+        <p style="font-size:0.76rem;color:var(--t2);margin-bottom:12px;line-height:1.5;">각 항목의 Google 설문지 URL을 입력하면 연결됩니다. URL이 없으면 안내 메시지가 표시됩니다.</p>
+        <div id="req-manage-list"></div>
+      </div>
+    </div>
+
+    <!-- Sheets 연동 탭 -->
+    <div class="atc" id="tab-sheets">
+      <div class="ab">
+        <div class="ab-t">📊 유지보수 신청 → Google Sheets 연동</div>
+        <p style="font-size:0.8rem;color:var(--t2);margin-bottom:14px;line-height:1.6;">홈페이지에서 접수된 유지보수 신청이 Google Sheets에 자동으로 기록됩니다.</p>
+        <div style="background:#fff;border:1.5px solid var(--bl);border-radius:10px;padding:18px;margin-bottom:14px;">
+          <div style="font-size:0.82rem;font-weight:800;color:var(--green);margin-bottom:12px;">Apps Script 설정 (5단계)</div>
+          <div class="gs"><div class="gsn">1</div><div>Google Sheets 새 시트 생성 → 시트 이름: <span class="ic">유지보수신청</span></div></div>
+          <div class="gs"><div class="gsn">2</div><div>Sheets 메뉴 → <span class="ic">확장 프로그램</span> → <span class="ic">Apps Script</span></div></div>
+          <div class="gs"><div class="gsn">3</div><div>아래 코드 붙여넣기 후 저장
+            <div style="display:flex;justify-content:flex-end;margin-bottom:4px;margin-top:6px;"><button style="font-size:0.7rem;padding:2px 8px;border-radius:5px;border:1px solid var(--border);background:transparent;cursor:pointer;" onclick="copyMaintCode()">복사</button></div>
+<pre class="code-b" id="maintCode">function doPost(e) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let sh = ss.getSheetByName('유지보수신청');
+  if (!sh) {
+    sh = ss.insertSheet('유지보수신청');
+    sh.appendRow(['접수번호','일자','유지보수 신청 내용','신청인','장소','기기명','접수 시각']);
+    sh.setFrozenRows(1);
+    sh.getRange(1,1,1,7).setFontWeight('bold').setBackground('#f4b8b5');
+    [60,110,380,90,140,120,150].forEach((w,i)=>sh.setColumnWidth(i+1,w));
+  }
+  const d = JSON.parse(e.postData.contents);
+  const num = sh.getLastRow();
+  sh.appendRow([num, d.date, d.content, d.name, d.location, d.device,
+    new Date().toLocaleString('ko-KR')]);
+  return ContentService.createTextOutput(
+    JSON.stringify({ok:true})).setMimeType(ContentService.MimeType.JSON);
+}</pre>
+          </div></div>
+          <div class="gs"><div class="gsn">4</div><div><span class="ic">배포</span> → <span class="ic">새 배포</span> → 웹 앱 → 액세스: <span class="ic">모든 사용자</span> → 배포 후 URL 복사</div></div>
+          <div class="gs"><div class="gsn">5</div><div>아래 입력칸에 URL 붙여넣기</div></div>
+          <label style="font-size:0.74rem;font-weight:700;color:var(--t2);">유지보수 신청 수신 URL (Apps Script)</label>
+          <input class="si2" id="maintSheetUrl" placeholder="https://script.google.com/macros/s/.../exec" oninput="saveMaintUrl()">
+          <div class="ss-s" id="maintSheetStatus"></div>
+          <div style="display:flex;gap:8px;margin-top:8px;">
+            <button class="abtn abp abs" onclick="testMaintUrl()">연결 테스트</button>
+            <button class="abtn abg abs" onclick="loadRecentMaint()">최근 접수 불러오기</button>
+          </div>
+        </div>
+      </div>
+      <div class="ab">
+        <div class="ab-t">💻 정보화기기 대여 신청 → Google Sheets 연동</div>
+        <p style="font-size:0.8rem;color:var(--t2);margin-bottom:14px;line-height:1.6;">정보화기기 대여 신청이 Google Sheets에 자동 기록됩니다. Sheets 열 구성: <span class="ic">일자 | 항목(담당자) | 기기명 | 개수 | 대여자 | 접수 시각</span></p>
+        <div style="background:#fff;border:1.5px solid var(--bl);border-radius:10px;padding:16px;margin-bottom:10px;">
+          <div class="gs"><div class="gsn">1</div><div>Google Sheets에서 시트 이름: <span class="ic">정보화기기대여</span> 생성</div></div>
+          <div class="gs"><div class="gsn">2</div><div>Apps Script → 아래 코드 사용 (유지보수와 같은 스크립트에 함수 추가 가능)
+<pre class="code-b" id="itCode">function doPost(e) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const d = JSON.parse(e.postData.contents);
+  const shName = d.sheet || '유지보수신청';
+  let sh = ss.getSheetByName(shName);
+  if (!sh) {
+    sh = ss.insertSheet(shName);
+    if(shName === '정보화기기대여') {
+      sh.appendRow(['일자','항목(담당자)','기기명','개수','대여자','접수 시각']);
+      sh.getRange(1,1,1,6).setFontWeight('bold').setBackground('#b7d7a8');
+    } else {
+      sh.appendRow(['접수번호','일자','유지보수 신청 내용','신청인','장소','기기명','접수 시각']);
+      sh.getRange(1,1,1,7).setFontWeight('bold').setBackground('#f4b8b5');
+    }
+    sh.setFrozenRows(1);
+  }
+  if(shName === '정보화기기대여') {
+    sh.appendRow([d.date, d.dept, d.device, d.qty, d.borrower,
+      new Date().toLocaleString('ko-KR')]);
+  } else {
+    const num = sh.getLastRow();
+    sh.appendRow([num, d.date, d.content, d.name, d.location, d.device,
+      new Date().toLocaleString('ko-KR')]);
+  }
+  return ContentService.createTextOutput(
+    JSON.stringify({ok:true})).setMimeType(ContentService.MimeType.JSON);
+}</pre>
+            <div style="display:flex;justify-content:flex-end;margin-top:4px;"><button style="font-size:0.7rem;padding:2px 8px;border-radius:5px;border:1px solid var(--border);background:transparent;cursor:pointer;" onclick="copyItCode()">복사</button></div>
+          </div></div>
+          <div class="gs"><div class="gsn">3</div><div>배포 → 새 배포 → 웹 앱 → 모든 사용자 → URL 복사</div></div>
+        </div>
+        <label style="font-size:0.74rem;font-weight:700;color:var(--t2);">정보화기기 대여 신청 수신 URL</label>
+        <input class="si2" id="itSheetUrl" placeholder="https://script.google.com/macros/s/.../exec" oninput="saveItUrl()">
+        <div class="ss-s" id="itSheetStatus"></div>
+        <div style="display:flex;gap:8px;margin-top:8px;">
+          <button class="abtn abp abs" onclick="testItUrl()">연결 테스트</button>
+        </div>
+      </div>
+      <div class="ab">
+        <div class="ab-t">🔧 항목(담당자) 목록 관리</div>
+        <p style="font-size:0.78rem;color:var(--t2);margin-bottom:12px;">정보화기기 대여 신청서의 항목 드롭다운 목록을 관리합니다.</p>
+        <div id="itDeptList" style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px;"></div>
+        <div class="ar">
+          <input class="ai" id="itDeptNew" placeholder="새 항목 입력 (예: 정보화 (신가람))">
+          <button class="abtn abp abs" onclick="addItDept()">추가</button>
+        </div>
+      </div>
+      <div class="ab">
+        <div class="ab-t">📊 공지·일정 Google Sheets 연동 (선택)</div>
+        <p style="font-size:0.8rem;color:var(--t2);margin-bottom:14px;line-height:1.6;">Sheets에서 공지사항·학사일정을 관리하고 홈페이지에 자동 반영합니다.</p>
+        <label style="font-size:0.74rem;font-weight:700;color:var(--t2);">공지·일정 API URL (Apps Script doGet)</label>
+        <input class="si2" id="noticeSheetUrl" placeholder="https://script.google.com/macros/s/.../exec" oninput="saveNoticeUrl()">
+        <div style="display:flex;gap:8px;margin-top:8px;">
+          <button class="abtn abp abs" onclick="loadFromSheets()">불러오기</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 설정 탭 -->
+    <div class="atc" id="tab-settings">
+      <div class="ab">
+        <div class="ab-t">🔑 비밀번호 변경</div>
+        <input type="password" class="ai" id="pw-cur" placeholder="현재 비밀번호">
+        <input type="password" class="ai" id="pw-new" placeholder="새 비밀번호 (6자 이상)">
+        <input type="password" class="ai" id="pw-conf" placeholder="새 비밀번호 확인">
+        <button class="abtn abp" onclick="changePw()">비밀번호 변경</button>
+      </div>
+      <div class="ab">
+        <div class="ab-t">🗑️ 데이터 초기화</div>
+        <p style="font-size:0.8rem;color:var(--t2);margin-bottom:12px;">브라우저에 저장된 모든 데이터를 초기화합니다. 되돌릴 수 없습니다.</p>
+        <button class="abtn abd" onclick="resetAll()">⚠️ 전체 초기화</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div><div class="fb-name">서울나래학교 과학정보부</div><p class="fb-p">과학실 관리, IT 기기 유지보수, 기자재 대여 등 다양한 서비스를 제공합니다.</p></div>
+    <div class="fc"><h4>요청</h4><ul><li><a onclick="showPage('maintenance')">유지보수 요청</a></li><li><a onclick="showPage('itRental')">정보화기기 대여</a></li></ul></div>
+    <div class="fc"><h4>정보</h4><ul><li><a onclick="showPage('notices')">공지사항</a></li><li><a onclick="showPage('calendar')">학사일정</a></li></ul></div>
+    <div class="fc"><h4>과학정보부</h4><ul><li><a>AI탐구교실 (5층)</a></li><li><a>AI상상교실 (5층)</a></li></ul></div>
+  </div>
+  <div class="footer-bot">
+    <div>© 2026 서울나래학교 과학정보부</div>
+    <div class="f-status"><span class="req-dot"></span>운영 중</div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+<script>
+// ══ STORAGE ══
+const K={notices:'snl_n2',sched:'snl_s2',members:'snl_m',reqs:'snl_r',maintUrl:'snl_mu',noticeUrl:'snl_nu',itUrl:'snl_iu',itDepts:'snl_id',pw:'snl_pw'};
+const get=(k,fb)=>{try{return JSON.parse(localStorage.getItem(k))||fb;}catch{return fb;}};
+const save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+// ══ DEFAULT DATA ══
+const DN=[
+  {id:1,badge:'nb-imp',title:'1학기 기기 대여 신청 마감 안내 (4/30)',date:'2026-04-20',content:'1학기 기기 대여 신청 마감일이 4월 30일(수)입니다.\n\n마감 이후 신청은 처리되지 않으니 기한 내에 신청해 주시기 바랍니다.\n대여 신청은 정보화기기 대여 페이지에서 가능합니다.'},
+  {id:2,badge:'nb-new',title:'과학실 노트북 OS 업데이트 완료',date:'2026-04-18',content:'과학실 노트북 운영체제 업데이트가 완료되었습니다.\n\n업데이트 내용:\n· Windows 11 최신 버전 적용\n· 교육용 소프트웨어 최신화\n\n문의 사항은 IT 담당 교사에게 연락 주세요.'},
+  {id:3,badge:'nb-event',title:'과학의 날 기념 실험 행사 안내 (4/21)',date:'2026-04-15',content:'과학의 날(4/21)을 맞아 전교생 대상 과학 실험 체험 행사가 진행됩니다.\n\n일시: 2026년 4월 21일 (화) 09:00 ~ 15:00\n장소: AI탐구교실, AI상상교실\n내용: 스마트 기기를 활용한 데이터 수집 실험'},
+  {id:4,badge:'nb-gen',title:'과학실 사용 규정 개정 안내',date:'2026-04-10',content:'과학실 사용 규정이 개정되었습니다.\n\n주요 변경 사항:\n1. 기기 대여 최대 기간 3일 → 5일 연장\n2. 사전 신청 필수 (당일 신청 불가)\n3. 반납 지연 시 다음 대여 제한'},
+];
+const DS=[
+  {id:1,title:'과학의 날 기념 실험 행사',desc:'전교생 대상 과학 실험 체험 행사.',date:'2026-04-21',end:'',tag1:'stag-sci',tag2:''},
+  {id:2,title:'스승의 날 행사',desc:'과학정보부 멀티미디어 시스템 운영 지원.',date:'2026-05-15',end:'',tag1:'stag-school',tag2:'stag-sci'},
+  {id:3,title:'여름방학',desc:'방학 중 AI교실 정기점검 및 기기 업데이트 예정.',date:'2026-07-21',end:'2026-08-17',tag1:'stag-vacation',tag2:''},
+  {id:4,title:'2학기 개학',desc:'기기 점검 완료, 대여 서비스 재개.',date:'2026-09-01',end:'',tag1:'stag-school',tag2:'stag-info'},
+];
+const DM=[
+  {id:1,name:'홍길동',role:'부장 교사',duty:'전체 운영 총괄, 예산 관리',ext:'1201',emoji:'👨‍🏫',avatar:'av-b'},
+  {id:2,name:'김영희',role:'과학실 담당',duty:'과학실 관리, 실험 기자재',ext:'1202',emoji:'🔬',avatar:'av-g'},
+  {id:3,name:'이철수',role:'IT 담당',duty:'컴퓨터·네트워크 유지보수',ext:'1203',emoji:'💻',avatar:'av-p'},
+  {id:4,name:'박지수',role:'기자재 담당',duty:'기기 대여·반납 관리',ext:'1204',emoji:'📦',avatar:'av-o'},
+];
+const DR=[
+  {id:1,emoji:'💻',title:'노트북 대여',desc:'수업·발표용 노트북, 최대 5일',url:'',color:'ri-b'},
+  {id:2,emoji:'📱',title:'태블릿 대여',desc:'아이패드·안드로이드 태블릿',url:'',color:'ri-p'},
+  {id:3,emoji:'💡',title:'기타 건의 / 의견',desc:'과학정보부 운영 개선 아이디어',url:'',color:'ri-g'},
+];
+
+let notices=get(K.notices,DN),scheds=get(K.sched,DS),members=get(K.members,DM),reqs=get(K.reqs,DR);
+let itDepts=get(K.itDepts,['정보화 (신가람)','AI (박혜원)','AAC (정국초)','디벗 (권다솜)','방송 (신가람)']);
+let adminPw=localStorage.getItem(K.pw)||'skfo2026',isAdminOpen=false,schedFilter='all';
+
+const BADGE_MAP={'nb-new':'NEW','nb-imp':'중요','nb-event':'행사','nb-gen':'일반'};
+const TAG_MAP={'stag-sci':'과학정보 행사','stag-school':'학교 일정','stag-vacation':'방학','stag-info':'안내'};
+const AV_CSS={'av-b':'background:rgba(0,113,227,0.1);','av-p':'background:rgba(88,86,212,0.1);','av-g':'background:rgba(52,199,89,0.1);','av-o':'background:rgba(255,159,10,0.1);','av-r':'background:rgba(255,59,48,0.1);'};
+
+// ══ DROPDOWN ══
+function toggleDropdown(){
+  document.getElementById('navDropdown').classList.toggle('open');
+}
+function navGo(page){
+  document.getElementById('navDropdown').classList.remove('open');
+  showPage(page);
+}
+document.addEventListener('click',e=>{
+  const dd=document.getElementById('navDropdown');
+  if(dd&&!dd.contains(e.target)) dd.classList.remove('open');
+});
+
+// ══ PAGE NAVIGATION ══
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  document.querySelectorAll('[data-page]').forEach(l=>l.classList.toggle('active',l.dataset.page===name));
+  window.scrollTo(0,0);
+  reobs();
+  if(name==='maintenance') {
+    const url=localStorage.getItem(K.maintUrl);
+    document.getElementById('maintUrlWarning').style.display=url?'none':'block';
+    loadRecentMaint();
+  }
+  if(name==='itRental') {
+    const url=localStorage.getItem(K.itUrl);
+    document.getElementById('itUrlWarning').style.display=url?'none':'block';
+    renderItDeptSelect();
+    renderItDeptGuide();
+    loadRecentItRental();
+  }
+}
+
+// ══ NOTICES ══
+function renderNotices(){
+  const el=document.getElementById('noticeList');
+  if(!notices.length){el.innerHTML='<div style="padding:32px;text-align:center;color:var(--t3);">등록된 공지사항이 없습니다.</div>';return;}
+  el.innerHTML=[...notices].reverse().map(n=>`
+    <div class="ncard fu" onclick="viewNotice(${n.id})">
+      <span class="nbadge ${n.badge}">${BADGE_MAP[n.badge]||'일반'}</span>
+      <div class="n-title">${esc(n.title)}</div>
+      <div class="n-date">${n.date}</div>
+      <div class="n-arr">›</div>
+    </div>`).join('');
+  reobs();
+}
+function viewNotice(id){
+  const n=notices.find(x=>x.id===id);if(!n)return;
+  document.getElementById('noticeViewContent').innerHTML=`
+    <div class="nv-badge"><span class="nbadge ${n.badge}">${BADGE_MAP[n.badge]||'일반'}</span></div>
+    <h3 style="margin-bottom:6px;">${esc(n.title)}</h3>
+    <div class="nv-date">${n.date}</div>
+    <div class="nv-content">${esc(n.content||'내용이 없습니다.')}</div>`;
+  document.getElementById('noticeViewMo').classList.add('active');
+}
+
+// ══ SCHEDULE ══
+function filterSched(type,btn){
+  schedFilter=type;
+  document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  renderSchedule();
+}
+function renderSchedule(){
+  const el=document.getElementById('scheduleList');
+  let data=[...scheds].sort((a,b)=>a.date.localeCompare(b.date));
+  if(schedFilter!=='all') data=data.filter(s=>s.tag1===`stag-${schedFilter}`||s.tag2===`stag-${schedFilter}`);
+  if(!data.length){el.innerHTML='<div style="padding:32px;text-align:center;color:var(--t3);">해당 일정이 없습니다.</div>';return;}
+  const months=['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+  el.innerHTML=data.map(s=>{
+    const d=new Date(s.date),mon=months[d.getMonth()],day=d.getDate();
+    const endStr=s.end?`~${s.end.slice(5).replace('-','/')}`:''
+    const tags=[s.tag1,s.tag2].filter(Boolean).map(t=>`<span class="stag ${t}">${TAG_MAP[t]||t}</span>`).join('');
+    return `<div class="sched-card fu">
+      <div class="sched-date"><div class="sched-m">${mon}</div><div class="sched-d">${day}</div>${endStr?`<div class="sched-e">${endStr}</div>`:''}</div>
+      <div class="sched-sep"></div>
+      <div class="sched-body"><div class="sched-title">${esc(s.title)}</div><div class="sched-desc">${esc(s.desc)}</div><div class="stags">${tags}</div></div>
+    </div>`;
+  }).join('');
+  reobs();
+}
+
+// ══ CALENDAR ══
+let calY=new Date().getFullYear(),calM=new Date().getMonth();
+function renderCalendar(){
+  document.getElementById('calTitle').textContent=`${calY}년 ${calM+1}월`;
+  const g=document.getElementById('calGrid');g.innerHTML='';
+  ['일','월','화','수','목','금','토'].forEach((d,i)=>{const el=document.createElement('div');el.className='mc-dn';el.style.color=i===0?'#ff3b30':i===6?'#0071e3':'';el.textContent=d;g.appendChild(el);});
+  const fd=new Date(calY,calM,1).getDay(),dim=new Date(calY,calM+1,0).getDate(),diP=new Date(calY,calM,0).getDate(),td=new Date();
+  const evD=new Set();
+  scheds.forEach(s=>{
+    const start=new Date(s.date);
+    const end=s.end?new Date(s.end):start;
+    // iterate every day in the range
+    for(let dt=new Date(start);dt<=end;dt.setDate(dt.getDate()+1)){
+      if(dt.getFullYear()===calY&&dt.getMonth()===calM){
+        evD.add(dt.getDate());
+      }
+    }
+  });
+  for(let i=fd-1;i>=0;i--){const el=document.createElement('div');el.className='mc-day oth';el.textContent=diP-i;g.appendChild(el);}
+  for(let d=1;d<=dim;d++){
+    const el=document.createElement('div');
+    const dow=new Date(calY,calM,d).getDay();
+    let cls='mc-day';
+    if(dow===0)cls+=' sun';
+    if(dow===6)cls+=' sat';
+    const isToday=calY===td.getFullYear()&&calM===td.getMonth()&&d===td.getDate();
+    if(isToday)cls+=' today';
+    if(evD.has(d))cls+=' has-ev';
+    el.className=cls;el.textContent=d;g.appendChild(el);
+  }
+  const tot=Math.ceil((fd+dim)/7)*7;for(let i=fd+dim,nd=1;i<tot;i++,nd++){const el=document.createElement('div');el.className='mc-day oth';el.textContent=nd;g.appendChild(el);}
+}
+function changeMonth(dir){calM+=dir;if(calM>11){calM=0;calY++;}if(calM<0){calM=11;calY--;}renderCalendar();}
+
+// ══ MEMBERS ══
+function renderMembers(){
+  const g=document.getElementById('membersGrid');if(!g)return;
+  if(!members.length){g.innerHTML='<div style="padding:32px;text-align:center;color:var(--t3);">등록된 교사가 없습니다.</div>';return;}
+  g.innerHTML=members.map(m=>`
+    <div class="mcard fu">
+      ${isAdminOpen?`<button class="m-edit" onclick="openMemberEdit(${m.id})">✏️ 수정</button>`:''}
+      <div class="m-avatar ${m.avatar||'av-b'}">${m.emoji||'👨‍🏫'}</div>
+      <div class="m-role">${esc(m.role)}</div>
+      <div class="m-name">${esc(m.name)}</div>
+      <div class="m-duty">${esc(m.duty||'')}</div>
+      ${m.ext?`<div class="m-ext">📞 내선 ${esc(m.ext)}</div>`:''}
+    </div>`).join('');
+  reobs();
+}
+
+// ══ REQUESTS (rental) ══
+function renderRequests(){
+  const g=document.getElementById('requestGrid');if(!g)return;
+  if(!reqs.length){g.innerHTML='<div style="padding:32px;text-align:center;color:var(--t3);">등록된 항목이 없습니다.</div>';return;}
+  g.innerHTML=reqs.map(r=>`
+    <div class="req-card fu" onclick="goToReq(${r.id})">
+      <div class="req-icon ${r.color||'ri-b'}">${r.emoji||'📋'}</div>
+      <div><div class="req-title">${esc(r.title)}</div><div class="req-desc">${esc(r.desc)}</div></div>
+      <div class="req-meta"><span class="req-dot"></span>설문지로 접수</div>
+    </div>`).join('');
+  reobs();
+}
+function goToReq(id){
+  const r=reqs.find(x=>x.id===id);
+  if(r&&r.url&&r.url.startsWith('http'))window.open(r.url,'_blank');
+  else showToast('설문지 URL이 아직 등록되지 않았습니다. 관리자 패널 → 대여 항목에서 설정해 주세요.','warn');
+}
+
+// ══ MAINTENANCE SUBMISSION ══
+function setToday(){
+  const d=new Date();
+  const y=d.getFullYear(),mo=String(d.getMonth()+1).padStart(2,'0'),dy=String(d.getDate()).padStart(2,'0');
+  document.getElementById('mf-date').value=`${y}-${mo}-${dy}`;
+}
+async function submitMaintenance(){
+  const date=document.getElementById('mf-date').value;
+  const name=document.getElementById('mf-name').value.trim();
+  const loc=document.getElementById('mf-loc').value.trim();
+  const device=document.getElementById('mf-device').value.trim();
+  const content=document.getElementById('mf-content').value.trim();
+  if(!date||!name||!loc||!content){showToast('모든 항목을 입력해 주세요.','warn');return;}
+  const url=localStorage.getItem(K.maintUrl);
+  if(!url){showToast('관리자가 Sheets URL을 설정하지 않았습니다.','warn');return;}
+  const btn=document.getElementById('submitMaintBtn');
+  btn.disabled=true;document.getElementById('submitBtnText').textContent='접수 중...';
+  const data={date,name,location:loc,device,content};
+  try{
+    await fetch(url,{method:'POST',mode:'no-cors',body:JSON.stringify(data)});
+  }catch(e){console.log(e);}
+  btn.disabled=false;document.getElementById('submitBtnText').textContent='접수하기';
+  document.getElementById('maintFormCard').style.display='none';
+  document.getElementById('maintSuccess').classList.add('show');
+}
+function resetMaintForm(){
+  document.getElementById('maintFormCard').style.display='block';
+  document.getElementById('maintSuccess').classList.remove('show');
+  ['mf-name','mf-loc','mf-device','mf-content'].forEach(id=>document.getElementById(id).value='');
+  setToday();
+}
+
+function loadRecentMaint(){
+  const url=localStorage.getItem(K.maintUrl);
+  const el=document.getElementById('recentMaint');
+  if(!url){el.textContent='URL이 설정되지 않았습니다.';return;}
+  el.innerHTML='<span style="color:var(--t3);">Sheets에서 불러오는 중...</span>';
+  // Try to load recent entries via GET (if the script has doGet)
+  fetch(url+'?action=recent&n=3')
+    .then(r=>r.json())
+    .then(d=>{
+      if(Array.isArray(d)&&d.length){
+        el.innerHTML=d.map(row=>`<div style="border-bottom:1px solid var(--bl);padding:6px 0;font-size:0.74rem;"><span style="color:var(--t3);">${row[1]||''}</span> · <span style="font-weight:600;">${row[3]||''}</span> · ${String(row[2]||'').slice(0,30)}...</div>`).join('');
+      }else{el.textContent='최근 접수 내역이 없습니다.';}
+    })
+    .catch(()=>{el.textContent='접수 완료 후 Sheets에서 확인해 주세요.';});
+}
+
+// ══ ADMIN LOGIN ══
+function openAdminLogin(){document.getElementById('adminPwInput').value='';document.getElementById('adminLoginMo').classList.add('active');setTimeout(()=>document.getElementById('adminPwInput').focus(),100);}
+function checkAdminPw(){
+  if(document.getElementById('adminPwInput').value===adminPw){document.getElementById('adminLoginMo').classList.remove('active');openAdmin();}
+  else{showToast('비밀번호가 틀렸습니다.','err');document.getElementById('adminPwInput').value='';}
+}
+
+// ══ ADMIN PANEL ══
+function openAdmin(){
+  isAdminOpen=true;document.getElementById('adminOv').classList.add('active');
+  switchTab('notices');renderAdminNotices();renderAdminScheds();renderAdminMembers();renderAdminReqs();
+  loadMaintUrl();loadNoticeUrl();loadItUrl();renderAdminItDepts();renderMembers();
+}
+function closeAdmin(){isAdminOpen=false;document.getElementById('adminOv').classList.remove('active');renderMembers();}
+function switchTab(n){
+  const tabs=['notices','schedule','members','reqs','sheets','settings'];
+  document.querySelectorAll('.atab').forEach((t,i)=>t.classList.toggle('active',tabs[i]===n));
+  document.querySelectorAll('.atc').forEach(c=>c.classList.remove('active'));
+  document.getElementById('tab-'+n).classList.add('active');
+}
+
+// NOTICE CRUD
+function addNotice(){
+  const badge=document.getElementById('n-badge').value,date=document.getElementById('n-date').value;
+  const title=document.getElementById('n-title').value.trim(),content=document.getElementById('n-content').value.trim();
+  if(!title||!date){showToast('제목과 날짜를 입력해 주세요.','warn');return;}
+  notices.push({id:Date.now(),badge,title,date,content});save(K.notices,notices);
+  ['n-title','n-content'].forEach(id=>document.getElementById(id).value='');
+  renderNotices();renderAdminNotices();showToast('공지사항이 추가되었습니다.');
+}
+function delNotice(id){if(!confirm('이 공지를 삭제할까요?'))return;notices=notices.filter(n=>n.id!==id);save(K.notices,notices);renderNotices();renderAdminNotices();showToast('삭제되었습니다.','warn');}
+function renderAdminNotices(){
+  document.getElementById('notice-count').textContent=notices.length;
+  const el=document.getElementById('admin-notice-list');
+  if(!notices.length){el.innerHTML='<div class="a-empty">등록된 공지가 없습니다.</div>';return;}
+  el.innerHTML=[...notices].reverse().map(n=>`
+    <div class="ai-item">
+      <span class="nbadge ${n.badge}" style="font-size:0.62rem;">${BADGE_MAP[n.badge]}</span>
+      <div class="ai-info"><div class="ai-t">${esc(n.title)}</div><div class="ai-m">${n.date}</div></div>
+      <div class="ai-acts"><button class="abtn abd abs" onclick="delNotice(${n.id})">삭제</button></div>
+    </div>`).join('');
+}
+
+// SCHEDULE CRUD
+function addSchedule(){
+  const title=document.getElementById('s-title').value.trim(),date=document.getElementById('s-date').value;
+  if(!title||!date){showToast('제목과 날짜를 입력해 주세요.','warn');return;}
+  scheds.push({id:Date.now(),title,desc:document.getElementById('s-desc').value.trim(),date,end:document.getElementById('s-end').value,tag1:document.getElementById('s-tag1').value,tag2:document.getElementById('s-tag2').value});
+  save(K.sched,scheds);['s-title','s-desc','s-date','s-end'].forEach(id=>document.getElementById(id).value='');
+  renderSchedule();renderCalendar();renderAdminScheds();showToast('일정이 추가되었습니다.');
+}
+function delSchedule(id){if(!confirm('이 일정을 삭제할까요?'))return;scheds=scheds.filter(s=>s.id!==id);save(K.sched,scheds);renderSchedule();renderCalendar();renderAdminScheds();showToast('삭제되었습니다.','warn');}
+function renderAdminScheds(){
+  document.getElementById('sched-count').textContent=scheds.length;
+  const el=document.getElementById('admin-sched-list');
+  if(!scheds.length){el.innerHTML='<div class="a-empty">등록된 일정이 없습니다.</div>';return;}
+  el.innerHTML=[...scheds].sort((a,b)=>a.date.localeCompare(b.date)).map(s=>`
+    <div class="ai-item">
+      <div class="ai-info"><div class="ai-t">${esc(s.title)}</div><div class="ai-m">${s.date}${s.end?' ~ '+s.end:''} · ${TAG_MAP[s.tag1]||''}</div></div>
+      <div class="ai-acts"><button class="abtn abd abs" onclick="delSchedule(${s.id})">삭제</button></div>
+    </div>`).join('');
+}
+
+// MEMBER CRUD
+function addMember(){
+  const name=document.getElementById('m-name').value.trim(),role=document.getElementById('m-role').value.trim();
+  if(!name||!role){showToast('이름과 직책을 입력해 주세요.','warn');return;}
+  members.push({id:Date.now(),name,role,duty:document.getElementById('m-duty').value.trim(),ext:document.getElementById('m-ext').value.trim(),emoji:document.getElementById('m-emoji').value.trim()||'👨‍🏫',avatar:document.getElementById('m-avatar').value});
+  save(K.members,members);['m-name','m-role','m-duty','m-ext','m-emoji'].forEach(id=>document.getElementById(id).value='');
+  renderMembers();renderAdminMembers();showToast('교사가 추가되었습니다.');
+}
+function delMember(id){if(!confirm('이 교사를 삭제할까요?'))return;members=members.filter(m=>m.id!==id);save(K.members,members);renderMembers();renderAdminMembers();showToast('삭제되었습니다.','warn');}
+function openMemberEdit(id){
+  const m=members.find(x=>x.id===id);if(!m)return;
+  document.getElementById('me-id').value=m.id;document.getElementById('me-name').value=m.name;document.getElementById('me-role').value=m.role;
+  document.getElementById('me-duty').value=m.duty||'';document.getElementById('me-ext').value=m.ext||'';
+  document.getElementById('me-emoji').value=m.emoji||'';document.getElementById('me-avatar').value=m.avatar||'av-b';
+  document.getElementById('memberEditMo').classList.add('active');
+}
+function saveMemberEdit(){
+  const id=parseInt(document.getElementById('me-id').value);const idx=members.findIndex(m=>m.id===id);if(idx===-1)return;
+  members[idx]={id,name:document.getElementById('me-name').value.trim(),role:document.getElementById('me-role').value.trim(),duty:document.getElementById('me-duty').value.trim(),ext:document.getElementById('me-ext').value.trim(),emoji:document.getElementById('me-emoji').value.trim()||'👨‍🏫',avatar:document.getElementById('me-avatar').value};
+  save(K.members,members);document.getElementById('memberEditMo').classList.remove('active');renderMembers();renderAdminMembers();showToast('수정되었습니다.');
+}
+function renderAdminMembers(){
+  document.getElementById('member-count').textContent=members.length;
+  const el=document.getElementById('admin-member-list');
+  if(!members.length){el.innerHTML='<div class="a-empty" style="grid-column:span 2;">없음</div>';return;}
+  el.innerHTML=members.map(m=>`
+    <div class="amcard">
+      <div class="am-hdr">
+        <div class="am-av" style="${AV_CSS[m.avatar]||AV_CSS['av-b']}">${m.emoji||'👨‍🏫'}</div>
+        <div><div class="am-name">${esc(m.name)}</div><div class="am-sub">${esc(m.role)} ${m.ext?'· '+esc(m.ext):''}</div></div>
+      </div>
+      <div style="font-size:0.73rem;color:var(--t2);">${esc(m.duty||'')}</div>
+      <div class="am-acts">
+        <button class="abtn abw abs" onclick="openMemberEdit(${m.id})">✏️ 수정</button>
+        <button class="abtn abd abs" onclick="delMember(${m.id})">삭제</button>
+      </div>
+    </div>`).join('');
+}
+
+// REQ CRUD
+function saveNewReq(){
+  const emoji=document.getElementById('ra-emoji').value.trim(),title=document.getElementById('ra-title').value.trim();
+  if(!title){showToast('항목 이름을 입력해 주세요.','warn');return;}
+  reqs.push({id:Date.now(),emoji:emoji||'📋',title,desc:document.getElementById('ra-desc').value.trim(),url:document.getElementById('ra-url').value.trim(),color:'ri-b'});
+  save(K.reqs,reqs);['ra-emoji','ra-title','ra-desc','ra-url'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('reqAddMo').classList.remove('active');renderRequests();renderAdminReqs();showToast('항목이 추가되었습니다.');
+}
+function delReq(id){if(!confirm('이 항목을 삭제할까요?'))return;reqs=reqs.filter(r=>r.id!==id);save(K.reqs,reqs);renderRequests();renderAdminReqs();showToast('삭제되었습니다.','warn');}
+function updateReqUrl(id,url){const r=reqs.find(x=>x.id===id);if(r){r.url=url;save(K.reqs,reqs);}}
+function renderAdminReqs(){
+  document.getElementById('req-count').textContent=reqs.length;
+  const el=document.getElementById('req-manage-list');
+  el.innerHTML=reqs.map(r=>`
+    <div class="rm-item">
+      <div class="rm-icon">${r.emoji||'📋'}</div>
+      <div class="rm-info">
+        <div class="rm-title">${esc(r.title)}</div>
+        <input class="rm-url-input" placeholder="https://forms.gle/..." value="${esc(r.url||'')}" oninput="updateReqUrl(${r.id},this.value)">
+      </div>
+      <div class="ai-acts"><button class="abtn abd abs" onclick="delReq(${r.id})">삭제</button></div>
+    </div>`).join('') || '<div class="a-empty">항목 없음</div>';
+}
+
+// SHEETS
+function loadMaintUrl(){const url=localStorage.getItem(K.maintUrl)||'';document.getElementById('maintSheetUrl').value=url;}
+function saveMaintUrl(){localStorage.setItem(K.maintUrl,document.getElementById('maintSheetUrl').value.trim());document.getElementById('maintUrlWarning').style.display=document.getElementById('maintSheetUrl').value.trim()?'none':'block';}
+function loadNoticeUrl(){const url=localStorage.getItem(K.noticeUrl)||'';document.getElementById('noticeSheetUrl').value=url;}
+function saveNoticeUrl(){localStorage.setItem(K.noticeUrl,document.getElementById('noticeSheetUrl').value.trim());}
+function loadItUrl(){const url=localStorage.getItem(K.itUrl)||'';document.getElementById('itSheetUrl').value=url;}
+function saveItUrl(){localStorage.setItem(K.itUrl,document.getElementById('itSheetUrl').value.trim());}
+async function testMaintUrl(){
+  const url=document.getElementById('maintSheetUrl').value.trim(),st=document.getElementById('maintSheetStatus');
+  if(!url){st.textContent='URL을 입력해 주세요.';st.className='ss-s ss-err';return;}
+  st.textContent='연결 중...';st.className='ss-s';
+  try{await fetch(url,{method:'POST',mode:'no-cors',body:JSON.stringify({test:true})});st.textContent='✅ URL이 등록되었습니다.';st.className='ss-s ss-ok';}
+  catch{st.textContent='⚠️ 연결 실패. URL과 배포 설정을 확인하세요.';st.className='ss-s ss-err';}
+}
+async function testItUrl(){
+  const url=document.getElementById('itSheetUrl').value.trim(),st=document.getElementById('itSheetStatus');
+  if(!url){st.textContent='URL을 입력해 주세요.';st.className='ss-s ss-err';return;}
+  st.textContent='연결 중...';st.className='ss-s';
+  try{await fetch(url,{method:'POST',mode:'no-cors',body:JSON.stringify({sheet:'정보화기기대여',test:true})});st.textContent='✅ URL이 등록되었습니다.';st.className='ss-s ss-ok';}
+  catch{st.textContent='⚠️ 연결 실패.';st.className='ss-s ss-err';}
+}
+
+// ══ IT RENTAL ══
+function renderItDeptSelect(){
+  const sel=document.getElementById('it-dept');if(!sel)return;
+  const cur=sel.value;
+  sel.innerHTML='<option value="">선택하세요</option>'+itDepts.map(d=>`<option value="${esc(d)}"${d===cur?' selected':''}>${esc(d)}</option>`).join('');
+}
+function renderItDeptGuide(){
+  const el=document.getElementById('itDeptGuide');if(!el)return;
+  const colors=['#e8f4fd','#fef9e7','#e8f8f0','#fdeaea','#f0ebfa'];
+  el.innerHTML=itDepts.map((d,i)=>`<div style="padding:7px 12px;border-radius:20px;background:${colors[i%colors.length]};margin-bottom:6px;font-size:0.8rem;font-weight:700;display:inline-block;margin-right:6px;">${esc(d)}</div>`).join('');
+}
+function renderAdminItDepts(){
+  const el=document.getElementById('itDeptList');if(!el)return;
+  el.innerHTML=itDepts.map((d,i)=>`<div style="display:flex;align-items:center;gap:8px;background:#fff;border:1.5px solid var(--bl);border-radius:8px;padding:8px 12px;font-size:0.82rem;"><span style="flex:1;font-weight:600;">${esc(d)}</span><button class="abtn abd abs" onclick="delItDept(${i})">삭제</button></div>`).join('');
+}
+function addItDept(){
+  const v=document.getElementById('itDeptNew').value.trim();
+  if(!v){showToast('항목명을 입력해 주세요.','warn');return;}
+  itDepts.push(v);save(K.itDepts,itDepts);
+  document.getElementById('itDeptNew').value='';
+  renderAdminItDepts();showToast('항목이 추가되었습니다.');
+}
+function delItDept(i){if(!confirm('이 항목을 삭제할까요?'))return;itDepts.splice(i,1);save(K.itDepts,itDepts);renderAdminItDepts();showToast('삭제되었습니다.','warn');}
+function setItToday(){
+  const d=new Date(),y=d.getFullYear(),mo=String(d.getMonth()+1).padStart(2,'0'),dy=String(d.getDate()).padStart(2,'0');
+  const el=document.getElementById('it-date');if(el)el.value=`${y}-${mo}-${dy}`;
+}
+async function submitItRental(){
+  const date=document.getElementById('it-date').value,dept=document.getElementById('it-dept').value;
+  const device=document.getElementById('it-device').value.trim(),qty=document.getElementById('it-qty').value;
+  const borrower=document.getElementById('it-borrower').value.trim();
+  if(!date||!dept||!device||!borrower){showToast('모든 항목을 입력해 주세요.','warn');return;}
+  const url=localStorage.getItem(K.itUrl);
+  if(!url){showToast('관리자가 Sheets URL을 설정하지 않았습니다.','warn');return;}
+  const btn=document.getElementById('submitItBtn');
+  btn.disabled=true;document.getElementById('submitItBtnText').textContent='신청 중...';
+  try{await fetch(url,{method:'POST',mode:'no-cors',body:JSON.stringify({sheet:'정보화기기대여',date,dept,device,qty,borrower})});}catch(e){console.log(e);}
+  btn.disabled=false;document.getElementById('submitItBtnText').textContent='신청하기';
+  document.getElementById('itFormCard').style.display='none';
+  document.getElementById('itSuccess').classList.add('show');
+}
+function resetItForm(){
+  document.getElementById('itFormCard').style.display='block';
+  document.getElementById('itSuccess').classList.remove('show');
+  ['it-device','it-borrower'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('it-qty').value='1';
+  document.getElementById('it-dept').value='';setItToday();
+}
+function loadRecentItRental(){
+  const url=localStorage.getItem(K.itUrl);
+  const el=document.getElementById('recentItRental');if(!el)return;
+  if(!url){el.textContent='URL이 설정되지 않았습니다.';return;}
+  el.innerHTML='<span style="color:var(--t3);">불러오는 중...</span>';
+  fetch(url+'?action=recent&sheet=정보화기기대여&n=4').then(r=>r.json())
+    .then(d=>{
+      if(Array.isArray(d)&&d.length){
+        el.innerHTML=d.map(row=>`<div style="border-bottom:1px solid var(--bl);padding:5px 0;font-size:0.72rem;"><span style="color:var(--t3);">${row[0]||''}</span> · <b>${row[1]||''}</b> · ${esc(String(row[2]||''))} · ${row[3]||''}개 · <span style="color:var(--blue);">${row[4]||''}</span></div>`).join('');
+      }else{el.textContent='최근 대여 내역이 없습니다.';}
+    }).catch(()=>{el.textContent='신청 완료 후 Sheets에서 확인해 주세요.';});
+}
+function copyItCode(){navigator.clipboard.writeText(document.getElementById('itCode').textContent).then(()=>showToast('코드가 복사되었습니다!'));}
+
+async function loadFromSheets(){
+  const url=localStorage.getItem(K.noticeUrl);if(!url){showToast('공지·일정 URL이 설정되지 않았습니다.','warn');return;}
+  showToast('불러오는 중...');
+  try{
+    const[nR,sR]=await Promise.all([fetch(url+'?sheet=공지사항').then(r=>r.json()),fetch(url+'?sheet=학사일정').then(r=>r.json())]);
+    if(Array.isArray(nR)&&nR.length){notices=nR.map((r,i)=>({id:i+1,badge:r.badge||'nb-gen',title:r.title,date:r.date,content:r.content||''}));save(K.notices,notices);renderNotices();renderAdminNotices();}
+    if(Array.isArray(sR)&&sR.length){scheds=sR.map((r,i)=>({id:i+1,title:r.title,desc:r.desc||'',date:r.date,end:r.dateEnd||'',tag1:r.tag1||'',tag2:r.tag2||''}));save(K.sched,scheds);renderSchedule();renderCalendar();renderAdminScheds();}
+    showToast('Sheets 데이터를 불러왔습니다!');
+  }catch{showToast('불러오기 실패.','err');}
+}
+function copyMaintCode(){navigator.clipboard.writeText(document.getElementById('maintCode').textContent).then(()=>showToast('코드가 복사되었습니다!'));}
+
+// PW
+function changePw(){
+  const cur=document.getElementById('pw-cur').value,nw=document.getElementById('pw-new').value,cf=document.getElementById('pw-conf').value;
+  if(cur!==adminPw){showToast('현재 비밀번호가 틀렸습니다.','err');return;}
+  if(!nw||nw.length<6){showToast('6자 이상 입력해 주세요.','warn');return;}
+  if(nw!==cf){showToast('비밀번호 확인이 일치하지 않습니다.','warn');return;}
+  adminPw=nw;localStorage.setItem(K.pw,nw);['pw-cur','pw-new','pw-conf'].forEach(id=>document.getElementById(id).value='');showToast('비밀번호가 변경되었습니다.');
+}
+function resetAll(){if(!confirm('모든 데이터를 초기화할까요?'))return;Object.values(K).forEach(k=>localStorage.removeItem(k));location.reload();}
+
+// TOAST
+let toastT;
+function showToast(msg,type=''){
+  const t=document.getElementById('toast');t.textContent=msg;t.className='toast'+(type?' '+type:'');
+  t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// SCROLL ANIM
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');}),{threshold:0.1});
+function reobs(){document.querySelectorAll('.fu:not(.in)').forEach(el=>obs.observe(el));}
+document.querySelectorAll('.fu').forEach(el=>obs.observe(el));
+
+// INIT
+setToday();setItToday();
+renderNotices();renderSchedule();renderCalendar();renderMembers();renderRequests();
+loadMaintUrl();
+</script>
+</body>
+</html>
